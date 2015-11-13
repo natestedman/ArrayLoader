@@ -1,0 +1,21 @@
+custom_categories:
+    - name: Array Loaders
+      children:
+          - ArrayLoader
+          - AnyArrayLoader
+          - ResultArrayLoader
+          - StaticArrayLoader
+          - StrategyArrayLoader
+    
+    - name: Array Loader Data
+      children:
+          - DerivedProperty
+          - LoaderState
+          - PageState
+    
+    - name: Strategy Array Loader Data
+      children:
+          - EmptyInfo
+          - LoadRequest
+          - LoadResult
+          - Mutation
