@@ -158,7 +158,7 @@ extension StrategyArrayLoader: ArrayLoader
                             
                             nextPageState: result.nextPageHasMore.value.map({ hasMore in
                                 hasMore ? .HasMore : .Complete
-                            }) ?? state.nextPageState,
+                            }) ?? .HasMore,
                             
                             previousPageState: result.previousPageHasMore.value.map({ hasMore in
                                 hasMore ? .HasMore : .Complete
@@ -218,7 +218,7 @@ extension StrategyArrayLoader: ArrayLoader
                             
                             previousPageState: result.previousPageHasMore.value.map({ hasMore in
                                 hasMore ? .HasMore : .Complete
-                            }) ?? state.previousPageState
+                            }) ?? .HasMore
                         )
                     }
                 }, failed: { [weak self] error in
