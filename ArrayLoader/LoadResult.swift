@@ -50,21 +50,21 @@ public struct LoadResult<Element, Info>
     // MARK: - Elements
     
     /// The elements that were loaded.
-    public let elements: [Element]
+    let elements: [Element]
     
     // MARK: - Page States
     
     /// A mutation value for whether or not the array loader has a next page.
-    public let nextPageHasMore: Mutation<Bool>
+    let nextPageHasMore: Mutation<Bool>
     
     /// A mutation value for whether or not the array loader has a previous page.
-    public let previousPageHasMore: Mutation<Bool>
+    let previousPageHasMore: Mutation<Bool>
     
     // MARK: - Infos
     
     /// A mutation value for the array loader's next page info.
-    public let nextPageInfo: Mutation<Info>
+    let nextPageInfo: Mutation<Info>
     
     /// A mutation value for the array loader's previous page info.
-    public let previousPageInfo: Mutation<Info>
+    let previousPageInfo: Mutation<Info>
 }
