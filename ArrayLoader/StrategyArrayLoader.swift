@@ -42,6 +42,9 @@ public final class StrategyArrayLoader<Element, Info, Error: ErrorType>
     
     - parameter nextInfo:        The initial next page info value.
     - parameter previousInfo:    The initial previous page info value.
+    - parameter scheduler:       The array loader's state property - and thus its derived properties provided by
+                                 `ArrayLoader` - will be updated on this scheduler. If this parameter is omitted,
+                                 `QueueScheduler.mainQueueScheduler` will be used.
     - parameter load:            The load strategy to use.
     - parameter combineNext:     The combine strategy to use for next pages. The first parameter sent to this function
                                  is the current content, and the second parameter is the newly loaded content. If this
@@ -53,6 +56,7 @@ public final class StrategyArrayLoader<Element, Info, Error: ErrorType>
     public init(
         nextInfo: Info,
         previousInfo: Info,
+        scheduler: SchedulerType = QueueScheduler.mainQueueScheduler,
         load: LoadStrategy,
         combineNext: CombineStrategy = (+),
         combinePrevious: CombineStrategy = (+))
@@ -60,6 +64,9 @@ public final class StrategyArrayLoader<Element, Info, Error: ErrorType>
         // set infos
         self.nextInfo = nextInfo
         self.previousInfo = previousInfo
+        
+        // set scheduler
+        self.scheduler = scheduler
         
         // set strategies
         loadStrategy = load
@@ -88,6 +95,11 @@ public final class StrategyArrayLoader<Element, Info, Error: ErrorType>
     
     /// The combine strategy used for prepending previous pages to the array.
     let previousCombineStrategy: CombineStrategy
+    
+    // MARK: - Scheduler
+    
+    /// The scheduler to use.
+    let scheduler: SchedulerType
 }
 
 extension StrategyArrayLoader where Info: EmptyInfo
@@ -145,6 +157,7 @@ extension StrategyArrayLoader: ArrayLoader
             
             loadStrategy(LoadRequest.Next(current: elements, info: nextInfo))
                 .take(1)
+                .observeOn(scheduler)
                 .on(next: { [weak self] result in
                     if let strongSelf = self
                     {
@@ -201,6 +214,7 @@ extension StrategyArrayLoader: ArrayLoader
             
             loadStrategy(LoadRequest.Previous(current: elements, info: previousInfo))
                 .take(1)
+                .observeOn(scheduler)
                 .on(next: { [weak self] result in
                     if let strongSelf = self
                     {
