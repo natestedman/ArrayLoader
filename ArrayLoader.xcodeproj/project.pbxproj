@@ -214,7 +214,7 @@
 			isa = PBXGroup;
 			children = (
 				43D93A141BF514150089D999 /* Array Loaders */,
-				43D93A131BF514020089D999 /* Array Loader Types */,
+				43D93A131BF514020089D999 /* Array Loader Data */,
 				4346EFBA1BD9799F0066CD46 /* Info.plist */,
 			);
 			path = ArrayLoaderTests;
@@ -281,13 +281,13 @@
 			name = "Strategy Array Loader Data";
 			sourceTree = "<group>";
 		};
-		43D93A131BF514020089D999 /* Array Loader Types */ = {
+		43D93A131BF514020089D999 /* Array Loader Data */ = {
 			isa = PBXGroup;
 			children = (
 				43D93A0F1BF511930089D999 /* LoaderStateTests.swift */,
 				4346EFD61BD982C00066CD46 /* PageStateTests.swift */,
 			);
-			name = "Array Loader Types";
+			name = "Array Loader Data";
 			sourceTree = "<group>";
 		};
 		43D93A141BF514150089D999 /* Array Loaders */ = {
@@ -848,6 +848,7 @@
 				437FDEF31BF56C7400A2A73E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		437FDEF71BF56C7400A2A73E /* Build configuration list for PBXNativeTarget "ArrayLoader-iOSTests" */ = {
 			isa = XCConfigurationList;
@@ -856,6 +857,7 @@
 				437FDEF51BF56C7400A2A73E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
