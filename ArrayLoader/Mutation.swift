@@ -23,7 +23,7 @@ public enum Mutation<Value>
     // MARK: - Value
     
     /// The value of the mutation, if of case `.Replace`. Otherwise, `nil`.
-    public var value: Value?
+    var value: Value?
     {
         switch self
         {
