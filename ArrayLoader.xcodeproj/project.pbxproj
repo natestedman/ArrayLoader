@@ -47,6 +47,8 @@
 		437FDF161BF56D8900A2A73E /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 437FDF0D1BF56D4900A2A73E /* Result.framework */; };
 		437FDF171BF56D8C00A2A73E /* ReactiveCocoa.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 437FDF0C1BF56D4900A2A73E /* ReactiveCocoa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		437FDF181BF56D8C00A2A73E /* Result.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 437FDF0D1BF56D4900A2A73E /* Result.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		43CEF09E1BF7A00800253943 /* DerivedPropertyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43CEF09D1BF7A00800253943 /* DerivedPropertyTests.swift */; };
+		43CEF09F1BF7A00800253943 /* DerivedPropertyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43CEF09D1BF7A00800253943 /* DerivedPropertyTests.swift */; };
 		43D93A031BF4E8990089D999 /* AnyArrayLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D93A021BF4E8980089D999 /* AnyArrayLoader.swift */; };
 		43D93A051BF4E8A30089D999 /* StrategyArrayLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D93A041BF4E8A30089D999 /* StrategyArrayLoader.swift */; };
 		43D93A0A1BF5004B0089D999 /* StaticArrayLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D93A091BF5004B0089D999 /* StaticArrayLoader.swift */; };
@@ -121,6 +123,7 @@
 		437FDEEA1BF56C7300A2A73E /* ArrayLoader-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ArrayLoader-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		437FDF0C1BF56D4900A2A73E /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveCocoa.framework; path = Carthage/Build/iOS/ReactiveCocoa.framework; sourceTree = "<group>"; };
 		437FDF0D1BF56D4900A2A73E /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
+		43CEF09D1BF7A00800253943 /* DerivedPropertyTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DerivedPropertyTests.swift; sourceTree = "<group>"; };
 		43D93A021BF4E8980089D999 /* AnyArrayLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyArrayLoader.swift; sourceTree = "<group>"; };
 		43D93A041BF4E8A30089D999 /* StrategyArrayLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StrategyArrayLoader.swift; sourceTree = "<group>"; };
 		43D93A091BF5004B0089D999 /* StaticArrayLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StaticArrayLoader.swift; sourceTree = "<group>"; };
@@ -284,6 +287,7 @@
 		43D93A131BF514020089D999 /* Array Loader Data */ = {
 			isa = PBXGroup;
 			children = (
+				43CEF09D1BF7A00800253943 /* DerivedPropertyTests.swift */,
 				43D93A0F1BF511930089D999 /* LoaderStateTests.swift */,
 				4346EFD61BD982C00066CD46 /* PageStateTests.swift */,
 			);
@@ -501,6 +505,7 @@
 				4346EFD71BD982C00066CD46 /* PageStateTests.swift in Sources */,
 				43D93A0C1BF5015A0089D999 /* AnyArrayLoaderTests.swift in Sources */,
 				43D93A0E1BF506570089D999 /* StaticArrayLoaderTests.swift in Sources */,
+				43CEF09E1BF7A00800253943 /* DerivedPropertyTests.swift in Sources */,
 				43D93A1A1BF526C30089D999 /* ResultArrayLoaderTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -533,6 +538,7 @@
 				437FDEFD1BF56CE900A2A73E /* PageStateTests.swift in Sources */,
 				437FDEF81BF56CE900A2A73E /* ArrayLoaderTests.swift in Sources */,
 				437FDEF91BF56CE900A2A73E /* AnyArrayLoaderTests.swift in Sources */,
+				43CEF09F1BF7A00800253943 /* DerivedPropertyTests.swift in Sources */,
 				437FDEFB1BF56CE900A2A73E /* ResultArrayLoaderTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
