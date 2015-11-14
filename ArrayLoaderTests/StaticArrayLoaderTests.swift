@@ -18,8 +18,8 @@ class StaticArrayLoaderTests: XCTestCase
     {
         let loader = StaticArrayLoader<Int>(elements: [], pageSize: 10)
         
-        XCTAssertEqual(loader.nextPageState.value, PageState.Complete)
-        XCTAssertEqual(loader.previousPageState.value, PageState.Complete)
+        XCTAssertEqual(loader.nextPageState.value, PageState.Completed)
+        XCTAssertEqual(loader.previousPageState.value, PageState.Completed)
         XCTAssertEqual(loader.elements.value, [])
     }
     
@@ -28,7 +28,7 @@ class StaticArrayLoaderTests: XCTestCase
         let loader = StaticArrayLoader<Int>(elements: [0, 1, 2, 3, 4], pageSize: 10)
         
         XCTAssertEqual(loader.nextPageState.value, PageState.HasMore)
-        XCTAssertEqual(loader.previousPageState.value, PageState.Complete)
+        XCTAssertEqual(loader.previousPageState.value, PageState.Completed)
         XCTAssertEqual(loader.elements.value, [])
         
         loader.loadNextPage()
@@ -43,13 +43,13 @@ class StaticArrayLoaderTests: XCTestCase
         let loader = StaticArrayLoader<Int>(elements: [0, 1, 2, 3, 4], pageSize: 5)
         
         XCTAssertEqual(loader.nextPageState.value, PageState.HasMore)
-        XCTAssertEqual(loader.previousPageState.value, PageState.Complete)
+        XCTAssertEqual(loader.previousPageState.value, PageState.Completed)
         XCTAssertEqual(loader.elements.value, [])
         
         loader.loadNextPage()
         
-        XCTAssertEqual(loader.nextPageState.value, PageState.Complete)
-        XCTAssertEqual(loader.previousPageState.value, PageState.Complete)
+        XCTAssertEqual(loader.nextPageState.value, PageState.Completed)
+        XCTAssertEqual(loader.previousPageState.value, PageState.Completed)
         XCTAssertEqual(loader.elements.value, [0, 1, 2, 3, 4])
     }
     
@@ -58,25 +58,25 @@ class StaticArrayLoaderTests: XCTestCase
         let loader = StaticArrayLoader<Int>(elements: [0, 1, 2, 3, 4], pageSize: 2)
         
         XCTAssertEqual(loader.nextPageState.value, PageState.HasMore)
-        XCTAssertEqual(loader.previousPageState.value, PageState.Complete)
+        XCTAssertEqual(loader.previousPageState.value, PageState.Completed)
         XCTAssertEqual(loader.elements.value, [])
         
         loader.loadNextPage()
         
         XCTAssertEqual(loader.nextPageState.value, PageState.HasMore)
-        XCTAssertEqual(loader.previousPageState.value, PageState.Complete)
+        XCTAssertEqual(loader.previousPageState.value, PageState.Completed)
         XCTAssertEqual(loader.elements.value, [0, 1])
         
         loader.loadNextPage()
         
         XCTAssertEqual(loader.nextPageState.value, PageState.HasMore)
-        XCTAssertEqual(loader.previousPageState.value, PageState.Complete)
+        XCTAssertEqual(loader.previousPageState.value, PageState.Completed)
         XCTAssertEqual(loader.elements.value, [0, 1, 2, 3])
         
         loader.loadNextPage()
         
-        XCTAssertEqual(loader.nextPageState.value, PageState.Complete)
-        XCTAssertEqual(loader.previousPageState.value, PageState.Complete)
+        XCTAssertEqual(loader.nextPageState.value, PageState.Completed)
+        XCTAssertEqual(loader.previousPageState.value, PageState.Completed)
         XCTAssertEqual(loader.elements.value, [0, 1, 2, 3, 4])
     }
 }

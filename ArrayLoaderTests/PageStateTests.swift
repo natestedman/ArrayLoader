@@ -21,12 +21,12 @@ class PageStateTests: XCTestCase
         XCTAssertNil(PageState<NSError>.HasMore.error)
     }
     
-    func testComplete()
+    func testCompleted()
     {
-        XCTAssertTrue(PageState<NSError>.Complete.complete)
-        XCTAssertFalse(PageState<NSError>.Complete.hasMore)
-        XCTAssertFalse(PageState<NSError>.Complete.loading)
-        XCTAssertNil(PageState<NSError>.Complete.error)
+        XCTAssertTrue(PageState<NSError>.Completed.complete)
+        XCTAssertFalse(PageState<NSError>.Completed.hasMore)
+        XCTAssertFalse(PageState<NSError>.Completed.loading)
+        XCTAssertNil(PageState<NSError>.Completed.error)
     }
     
     func testLoading()
@@ -52,7 +52,7 @@ class PageStateTests: XCTestCase
     func testEquatable()
     {
         XCTAssertEqual(PageState<NSError>.Loading, PageState.Loading)
-        XCTAssertEqual(PageState<NSError>.Complete, PageState.Complete)
+        XCTAssertEqual(PageState<NSError>.Completed, PageState.Completed)
         XCTAssertEqual(PageState<NSError>.HasMore, PageState.HasMore)
         
         let testError = NSError(domain: "test", code: 0, userInfo: nil)

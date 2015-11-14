@@ -41,7 +41,7 @@ public final class ResultArrayLoader<Element, Error: ErrorType>
         let pageState = { (array: [Result<[Element], Error>], offset: Int) -> PageState<Error> in
             if offset == array.count
             {
-                return .Complete
+                return .Completed
             }
             else if offset == 0
             {

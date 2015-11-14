@@ -21,7 +21,7 @@ public enum PageState<Error: ErrorType>
     case HasMore
     
     /// The array loader is complete, and does not have an additional page to load.
-    case Complete
+    case Completed
     
     /// The array loader is loading the page.
     case Loading
@@ -46,12 +46,12 @@ extension PageState
         }
     }
     
-    /// `true` if the page state is `.Complete`.
+    /// `true` if the page state is `.Completed`.
     public var complete: Bool
     {
         switch self
         {
-        case .Complete:
+        case .Completed:
             return true
         default:
             return false
@@ -104,7 +104,7 @@ public func ==<Error>(lhs: PageState<Error>, rhs: PageState<Error>) -> Bool
     case (.HasMore, .HasMore):
         return true
         
-    case (.Complete, .Complete):
+    case (.Completed, .Completed):
         return true
         
     case (.Loading, .Loading):
@@ -130,8 +130,8 @@ extension PageState: CustomDebugStringConvertible
     {
         switch self
         {
-        case .Complete:
-            return "Complete"
+        case .Completed:
+            return "Completed"
             
         case .HasMore:
             return "Has More"

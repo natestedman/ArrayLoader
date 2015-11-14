@@ -17,28 +17,28 @@ class LoaderStateTests: XCTestCase
     func testEquality()
     {
         XCTAssertTrue(
-            LoaderState<Int, NoError>(elements: [], nextPageState: .HasMore, previousPageState: .Complete) ==
-            LoaderState<Int, NoError>(elements: [], nextPageState: .HasMore, previousPageState: .Complete)
+            LoaderState<Int, NoError>(elements: [], nextPageState: .HasMore, previousPageState: .Completed) ==
+            LoaderState<Int, NoError>(elements: [], nextPageState: .HasMore, previousPageState: .Completed)
         )
         
         XCTAssertTrue(
-            LoaderState<Int, NoError>(elements: [1, 2, 3], nextPageState: .HasMore, previousPageState: .Complete) ==
-            LoaderState<Int, NoError>(elements: [1, 2, 3], nextPageState: .HasMore, previousPageState: .Complete)
+            LoaderState<Int, NoError>(elements: [1, 2, 3], nextPageState: .HasMore, previousPageState: .Completed) ==
+            LoaderState<Int, NoError>(elements: [1, 2, 3], nextPageState: .HasMore, previousPageState: .Completed)
         )
         
         XCTAssertFalse(
-            LoaderState<Int, NoError>(elements: [1, 2, 3], nextPageState: .HasMore, previousPageState: .Complete) ==
-            LoaderState<Int, NoError>(elements: [1, 2], nextPageState: .HasMore, previousPageState: .Complete)
+            LoaderState<Int, NoError>(elements: [1, 2, 3], nextPageState: .HasMore, previousPageState: .Completed) ==
+            LoaderState<Int, NoError>(elements: [1, 2], nextPageState: .HasMore, previousPageState: .Completed)
         )
         
         XCTAssertFalse(
-            LoaderState<Int, NoError>(elements: [1, 2, 3], nextPageState: .HasMore, previousPageState: .Complete) ==
+            LoaderState<Int, NoError>(elements: [1, 2, 3], nextPageState: .HasMore, previousPageState: .Completed) ==
             LoaderState<Int, NoError>(elements: [1, 2, 3], nextPageState: .HasMore, previousPageState: .HasMore)
         )
         
         XCTAssertFalse(
-            LoaderState<Int, NoError>(elements: [1, 2, 3], nextPageState: .HasMore, previousPageState: .Complete) ==
-            LoaderState<Int, NoError>(elements: [1, 2, 3], nextPageState: .Complete, previousPageState: .Complete)
+            LoaderState<Int, NoError>(elements: [1, 2, 3], nextPageState: .HasMore, previousPageState: .Completed) ==
+            LoaderState<Int, NoError>(elements: [1, 2, 3], nextPageState: .Completed, previousPageState: .Completed)
         )
     }
 }

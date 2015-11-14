@@ -36,8 +36,8 @@ public final class StaticArrayLoader<Element>
             
             return LoaderState(
                 elements: slice,
-                nextPageState: offset < elements.count ? .HasMore : .Complete,
-                previousPageState: .Complete
+                nextPageState: offset < elements.count ? .HasMore : .Completed,
+                previousPageState: .Completed
             )
         }
         

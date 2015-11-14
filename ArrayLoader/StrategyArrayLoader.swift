@@ -141,7 +141,7 @@ extension StrategyArrayLoader: ArrayLoader
     /// page is available, this function does nothing.
     ///
     /// Although load strategies can execute synchronously, the next page state of the array loader will always
-    /// change to `.Loading` when this function is called, as long as the next page state is not `.Complete`.
+    /// change to `.Loading` when this function is called, as long as the next page state is not `.Completed`.
     public func loadNextPage()
     {
         if nextPageState.value.hasMore
@@ -170,11 +170,11 @@ extension StrategyArrayLoader: ArrayLoader
                             elements: strongSelf.nextCombineStrategy(state.elements, result.elements),
                             
                             nextPageState: result.nextPageHasMore.value.map({ hasMore in
-                                hasMore ? .HasMore : .Complete
+                                hasMore ? .HasMore : .Completed
                             }) ?? .HasMore,
                             
                             previousPageState: result.previousPageHasMore.value.map({ hasMore in
-                                hasMore ? .HasMore : .Complete
+                                hasMore ? .HasMore : .Completed
                             }) ?? state.previousPageState
                         )
                     }
@@ -198,7 +198,7 @@ extension StrategyArrayLoader: ArrayLoader
     /// previous page is available, this function does nothing.
     ///
     /// Although load strategies can execute synchronously, the next page state of the array loader will always
-    /// change to `.Loading` when this function is called, as long as the next page state is not `.Complete`.
+    /// change to `.Loading` when this function is called, as long as the next page state is not `.Completed`.
     public func loadPreviousPage()
     {
         if previousPageState.value.hasMore
@@ -227,11 +227,11 @@ extension StrategyArrayLoader: ArrayLoader
                             elements: strongSelf.nextCombineStrategy(result.elements, state.elements),
                             
                             nextPageState: result.nextPageHasMore.value.map({ hasMore in
-                                hasMore ? .HasMore : .Complete
+                                hasMore ? .HasMore : .Completed
                             }) ?? state.nextPageState,
                             
                             previousPageState: result.previousPageHasMore.value.map({ hasMore in
-                                hasMore ? .HasMore : .Complete
+                                hasMore ? .HasMore : .Completed
                             }) ?? .HasMore
                         )
                     }
