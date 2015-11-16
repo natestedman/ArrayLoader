@@ -50,9 +50,9 @@ public extension LoadRequest
         switch self
         {
         case .Next:
-            return true
-        case .Previous:
             return false
+        case .Previous:
+            return true
         }
     }
     
