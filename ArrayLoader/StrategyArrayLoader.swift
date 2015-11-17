@@ -144,7 +144,7 @@ extension StrategyArrayLoader: ArrayLoader
     /// change to `.Loading` when this function is called, as long as the next page state is not `.Completed`.
     public func loadNextPage()
     {
-        if nextPageState.value.hasMore
+        if nextPageState.value.isHasMore
         {
             let elements = _state.value.elements
             
@@ -201,7 +201,7 @@ extension StrategyArrayLoader: ArrayLoader
     /// change to `.Loading` when this function is called, as long as the next page state is not `.Completed`.
     public func loadPreviousPage()
     {
-        if previousPageState.value.hasMore
+        if previousPageState.value.isHasMore
         {
             let elements = _state.value.elements
             

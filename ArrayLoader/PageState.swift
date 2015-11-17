@@ -35,7 +35,7 @@ extension PageState
     // MARK: - Properties
     
     /// `true` if the page state is `.HasMore`.
-    public var hasMore: Bool
+    public var isHasMore: Bool
     {
         switch self
         {
@@ -47,7 +47,7 @@ extension PageState
     }
     
     /// `true` if the page state is `.Completed`.
-    public var complete: Bool
+    public var isCompleted: Bool
     {
         switch self
         {
@@ -59,7 +59,7 @@ extension PageState
     }
     
     /// `true` if the page state is `.Loading`.
-    public var loading: Bool
+    public var isLoading: Bool
     {
         switch self
         {

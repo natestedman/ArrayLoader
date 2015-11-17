@@ -33,8 +33,8 @@ class StaticArrayLoaderTests: XCTestCase
         
         loader.loadNextPage()
         
-        XCTAssertTrue(loader.nextPageState.value.complete)
-        XCTAssertTrue(loader.previousPageState.value.complete)
+        XCTAssertTrue(loader.nextPageState.value.isCompleted)
+        XCTAssertTrue(loader.previousPageState.value.isCompleted)
         XCTAssertEqual(loader.elements.value, [0, 1, 2, 3, 4])
     }
     
