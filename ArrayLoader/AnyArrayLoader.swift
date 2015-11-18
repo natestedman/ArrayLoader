@@ -59,12 +59,8 @@ extension AnyArrayLoader
                 initialValue: transform(arrayLoader.state.value),
                 producer: arrayLoader.state.producer.skip(1).map(transform)
             ),
-            loadNextPage: {
-                arrayLoader.loadNextPage()
-            },
-            loadPreviousPage: {
-                arrayLoader.loadPreviousPage()
-            }
+            loadNextPage: Wrapped.loadNextPage(arrayLoader),
+            loadPreviousPage: Wrapped.loadPreviousPage(arrayLoader)
         )
     }
     
