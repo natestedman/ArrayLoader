@@ -11,7 +11,7 @@
 import ReactiveCocoa
 
 /// Loads data synchronously from a static backing array.
-public final class StaticArrayLoader<Element>
+public struct StaticArrayLoader<Element>
 {
     // MARK: - Initialization
     
