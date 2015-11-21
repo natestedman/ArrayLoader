@@ -15,7 +15,7 @@ import Result
 ///
 /// Each `loadNextPage()` and `loadPreviousPage()` call will advance the index of the associated array by one. Each
 /// error value will only occur once, so loading the page again will advance past the error.
-public final class ResultArrayLoader<Element, Error: ErrorType>
+public struct ResultArrayLoader<Element, Error: ErrorType>
 {
     // MARK: - Initialization
     
