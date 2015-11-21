@@ -14,7 +14,7 @@ import ReactiveCocoa
 ///
 /// `loadNextPage()` and `loadPreviousPage()` can be called on either the wrapped array loader or on this class. The
 /// results of both will be the same - the implementations for this class merely call the wrapped versions.
-public final class AnyArrayLoader<Element, Error: ErrorType>
+public struct AnyArrayLoader<Element, Error: ErrorType>
 {
     // MARK: - Loader State
     
@@ -51,7 +51,7 @@ extension AnyArrayLoader
      - parameter arrayLoader: The array loader to wrap.
      - parameter transform:   The state transform function.
      */
-    public convenience init<Wrapped: ArrayLoader>
+    public init<Wrapped: ArrayLoader>
         (arrayLoader: Wrapped, transform: LoaderState<Wrapped.Element, Wrapped.Error> -> LoaderState<Element, Error>)
     {
         self.init(
@@ -71,7 +71,7 @@ extension AnyArrayLoader
      - parameter arrayLoader: The array loader to wrap.
      - parameter transform:   The element transform function.
      */
-    public convenience init<Wrapped: ArrayLoader where Wrapped.Error == Error>
+    public init<Wrapped: ArrayLoader where Wrapped.Error == Error>
         (arrayLoader: Wrapped, transform: Wrapped.Element -> Element)
     {
         self.init(
@@ -91,7 +91,7 @@ extension AnyArrayLoader
      
      - parameter arrayLoader: The array loader to wrap.
      */
-    public convenience init<Wrapped: ArrayLoader where Wrapped.Element == Element, Wrapped.Error == Error>
+    public init<Wrapped: ArrayLoader where Wrapped.Element == Element, Wrapped.Error == Error>
         (arrayLoader: Wrapped)
     {
         self.init(
