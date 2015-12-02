@@ -10,7 +10,7 @@
 
 /// An info type that can be implicitly constructed.
 ///
-/// This type can be used to create `StrategyArrayLoader` instances without providing explicit initial info values.
+/// This type can be used to create `InfoStrategyArrayLoader` instances without providing explicit initial info values.
 ///
 /// An implementation is provided for `Optional`.
 public protocol EmptyInfo

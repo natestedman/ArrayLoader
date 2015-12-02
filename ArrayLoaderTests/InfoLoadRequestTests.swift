@@ -11,28 +11,37 @@
 @testable import ArrayLoader
 import XCTest
 
-class LoadRequestTests: XCTestCase
+class InfoLoadRequestTests: XCTestCase
 {
     func testNext()
     {
-        let request = LoadRequest<Int>.Next(current: [])
+        let request = InfoLoadRequest<Int, Int>.Next(current: [], info: 0)
         XCTAssertTrue(request.isNext)
         XCTAssertFalse(request.isPrevious)
     }
     
     func testPrevious()
     {
-        let request = LoadRequest<Int>.Previous(current: [])
+        let request = InfoLoadRequest<Int, Int>.Previous(current: [], info: 0)
         XCTAssertTrue(request.isPrevious)
         XCTAssertFalse(request.isNext)
     }
     
     func testCurrent()
     {
-        let previous = LoadRequest<Int>.Previous(current: [0, 1, 2, 3])
+        let previous = InfoLoadRequest<Int, Int>.Previous(current: [0, 1, 2, 3], info: 0)
         XCTAssertEqual(previous.current, [0, 1, 2, 3])
         
-        let next = LoadRequest<Int>.Previous(current: [0, 1, 2, 3])
+        let next = InfoLoadRequest<Int, Int>.Previous(current: [0, 1, 2, 3], info: 0)
         XCTAssertEqual(next.current, [0, 1, 2, 3])
+    }
+    
+    func testInfo()
+    {
+        let previous = InfoLoadRequest<Int, Int>.Next(current: [], info: 10)
+        XCTAssertEqual(previous.info, 10)
+        
+        let next = InfoLoadRequest<Int, Int>.Next(current: [], info: 10)
+        XCTAssertEqual(next.info, 10)
     }
 }

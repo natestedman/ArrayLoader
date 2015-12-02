@@ -8,8 +8,8 @@
 // You should have received a copy of the CC0 Public Domain Dedication along with
 // this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 
-/// Enumerates the mutations that can be triggered on stateful data when a `LoadResult` is processed by
-/// `StrategyArrayLoader`.
+/// Enumerates the mutations that can be triggered on stateful data when a `LoadResult` or `InfoLoadResult` is processed
+/// by `StrategyArrayLoader` or `InfoStrategyArrayLoader`.
 public enum Mutation<Value>
 {
     // MARK: - Cases

@@ -3,6 +3,7 @@ custom_categories:
       children:
           - ArrayLoader
           - AnyArrayLoader
+          - InfoStrategyArrayLoader
           - ResultArrayLoader
           - StaticArrayLoader
           - StrategyArrayLoader
@@ -16,6 +17,8 @@ custom_categories:
     - name: Strategy Array Loader Data
       children:
           - EmptyInfo
+          - InfoLoadRequest
+          - InfoLoadResult
           - LoadRequest
           - LoadResult
           - Mutation
