@@ -31,14 +31,6 @@ public final class StrategyArrayLoader<Element, Error: ErrorType>
     /// need to handle potentially overlapping data.
     public typealias CombineStrategy = ([Element], [Element]) -> [Element]
     
-    // MARK: - State
-    
-    /// The current state of the array loader.
-    public var state: AnyProperty<LoaderState<Element, Error>>
-    {
-        return backing.state
-    }
-    
     // MARK: - Initialization
     
     /**
@@ -89,6 +81,14 @@ public final class StrategyArrayLoader<Element, Error: ErrorType>
 
 extension StrategyArrayLoader: ArrayLoader
 {
+    // MARK: - State
+    
+    /// The current state of the array loader.
+    public var state: AnyProperty<LoaderState<Element, Error>>
+    {
+        return backing.state
+    }
+    
     // MARK: - Loading Pages
     
     /// Loads the next page of the array loader, if one is available. If the next page is already loading, or no next
