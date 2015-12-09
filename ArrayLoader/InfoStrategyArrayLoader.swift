@@ -108,36 +108,6 @@ public final class InfoStrategyArrayLoader<Element, Info, Error: ErrorType>
     let scheduler: SchedulerType
 }
 
-extension InfoStrategyArrayLoader where Info: EmptyInfo
-{
-    // MARK: - Empty Info
-    
-    /**
-    Initializes a strategy array loader with default info values for both pages.
-    
-    - parameter load:            The load strategy to use.
-    - parameter combineNext:     The combine strategy to use for next pages. The first parameter sent to this function
-                                 is the current content, and the second parameter is the newly loaded content. If this
-                                 parameter is omitted, `+` will be used.
-    - parameter combinePrevious: The combine strategy to use for previous pages. The first parameter sent to this
-                                 function is the new loadeded content, and the second parameter is the current content.
-                                 If this parameter is omitted, `+` will be used.
-    */
-    public convenience init(
-        load: LoadStrategy,
-        combineNext: CombineStrategy = (+),
-        combinePrevious: CombineStrategy = (+))
-    {
-        self.init(
-            nextInfo: Info(),
-            previousInfo: Info(),
-            load: load,
-            combineNext: combineNext,
-            combinePrevious: combinePrevious
-        )
-    }
-}
-
 // MARK: - ArrayLoader
 extension InfoStrategyArrayLoader: ArrayLoader
 {

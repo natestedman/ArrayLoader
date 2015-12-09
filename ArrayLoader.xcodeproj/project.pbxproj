@@ -34,7 +34,6 @@
 		437FDEFB1BF56CE900A2A73E /* ResultArrayLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D93A191BF526C30089D999 /* ResultArrayLoaderTests.swift */; };
 		437FDEFC1BF56CE900A2A73E /* LoaderStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D93A0F1BF511930089D999 /* LoaderStateTests.swift */; };
 		437FDEFD1BF56CE900A2A73E /* PageStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4346EFD61BD982C00066CD46 /* PageStateTests.swift */; };
-		437FDEFE1BF56CED00A2A73E /* EmptyInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D93A1B1BF542E70089D999 /* EmptyInfo.swift */; };
 		437FDEFF1BF56CED00A2A73E /* Mutation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D93A1D1BF54B570089D999 /* Mutation.swift */; };
 		437FDF001BF56CED00A2A73E /* LoadRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4346EFD21BD97D210066CD46 /* LoadRequest.swift */; };
 		437FDF011BF56CED00A2A73E /* LoadResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4346EFDC1BD98D760066CD46 /* LoadResult.swift */; };
@@ -64,7 +63,6 @@
 		43D93A161BF5143C0089D999 /* ArrayLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D93A151BF5143C0089D999 /* ArrayLoaderTests.swift */; };
 		43D93A181BF520CB0089D999 /* ResultArrayLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D93A171BF520CB0089D999 /* ResultArrayLoader.swift */; };
 		43D93A1A1BF526C30089D999 /* ResultArrayLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D93A191BF526C30089D999 /* ResultArrayLoaderTests.swift */; };
-		43D93A1C1BF542E70089D999 /* EmptyInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D93A1B1BF542E70089D999 /* EmptyInfo.swift */; };
 		43D93A1E1BF54B570089D999 /* Mutation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D93A1D1BF54B570089D999 /* Mutation.swift */; };
 		43D93A201BF558EB0089D999 /* DerivedProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D93A1F1BF558EB0089D999 /* DerivedProperty.swift */; };
 /* End PBXBuildFile section */
@@ -142,7 +140,6 @@
 		43D93A151BF5143C0089D999 /* ArrayLoaderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayLoaderTests.swift; sourceTree = "<group>"; };
 		43D93A171BF520CB0089D999 /* ResultArrayLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultArrayLoader.swift; sourceTree = "<group>"; };
 		43D93A191BF526C30089D999 /* ResultArrayLoaderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultArrayLoaderTests.swift; sourceTree = "<group>"; };
-		43D93A1B1BF542E70089D999 /* EmptyInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyInfo.swift; sourceTree = "<group>"; };
 		43D93A1D1BF54B570089D999 /* Mutation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mutation.swift; sourceTree = "<group>"; };
 		43D93A1F1BF558EB0089D999 /* DerivedProperty.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DerivedProperty.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -297,7 +294,6 @@
 		43D93A121BF513F70089D999 /* Strategy Array Loader Data */ = {
 			isa = PBXGroup;
 			children = (
-				43D93A1B1BF542E70089D999 /* EmptyInfo.swift */,
 				43D93A1D1BF54B570089D999 /* Mutation.swift */,
 				4346EFD21BD97D210066CD46 /* LoadRequest.swift */,
 				4346EFDC1BD98D760066CD46 /* LoadResult.swift */,
@@ -513,7 +509,6 @@
 				4346EFD51BD9807B0066CD46 /* PageState.swift in Sources */,
 				4346EFD11BD97BC80066CD46 /* ArrayLoader.swift in Sources */,
 				434E4F941C0F466F00DF9B75 /* StrategyArrayLoader.swift in Sources */,
-				43D93A1C1BF542E70089D999 /* EmptyInfo.swift in Sources */,
 				4346EFD31BD97D210066CD46 /* LoadRequest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -549,7 +544,6 @@
 				437FDF001BF56CED00A2A73E /* LoadRequest.swift in Sources */,
 				437FDF011BF56CED00A2A73E /* LoadResult.swift in Sources */,
 				434E4F951C0F466F00DF9B75 /* StrategyArrayLoader.swift in Sources */,
-				437FDEFE1BF56CED00A2A73E /* EmptyInfo.swift in Sources */,
 				437FDF021BF56CF200A2A73E /* ArrayLoader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
