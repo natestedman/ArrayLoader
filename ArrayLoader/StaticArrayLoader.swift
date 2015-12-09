@@ -64,6 +64,16 @@ public struct StaticArrayLoader<Element>
     public let state: AnyProperty<LoaderState<Element, Error>>
 }
 
+extension StaticArrayLoader
+{
+    // MARK: - Empty
+    
+    /// Returns an empty array loader, with both next and previous pages completed.
+    public static var empty: StaticArrayLoader<Element> {
+        return StaticArrayLoader(elements: [], pageSize: 0)
+    }
+}
+
 // MARK: - ArrayLoader
 extension StaticArrayLoader: ArrayLoader
 {
