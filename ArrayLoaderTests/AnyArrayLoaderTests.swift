@@ -17,7 +17,7 @@ class AnyArrayLoaderTests: XCTestCase
     func testMatchesStatic()
     {
         let wrapped = StaticArrayLoader(elements: [0, 1, 2, 3, 4], pageSize: 2)
-        let any = AnyArrayLoader(arrayLoader: wrapped)
+        let any = AnyArrayLoader(wrapped)
         
         // check that initial state matches
         XCTAssertTrue(wrapped.state.value == any.state.value, "\(wrapped.state.value) should equal \(any.state.value)")

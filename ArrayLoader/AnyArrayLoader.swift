@@ -92,7 +92,7 @@ extension AnyArrayLoader
      - parameter arrayLoader: The array loader to wrap.
      */
     public init<Wrapped: ArrayLoader where Wrapped.Element == Element, Wrapped.Error == Error>
-        (arrayLoader: Wrapped)
+        (_ arrayLoader: Wrapped)
     {
         self.init(
             arrayLoader: arrayLoader,
