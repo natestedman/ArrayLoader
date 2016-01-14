@@ -83,3 +83,21 @@ extension ArrayLoader
         return transformedStateProperty({ state in state.previousPageState })
     }
 }
+
+extension ArrayLoader where Error == NoError
+{
+    // MARK: - Composition Support
+
+    /**
+    Promotes a non-erroring array loader to be compatible with error-yielding array loaders.
+
+    - parameter error: The error type to promote to.
+    */
+    public func promoteErrors<Promoted: ErrorType>(error: Promoted.Type) -> AnyArrayLoader<Element, Promoted>
+    {
+        return AnyArrayLoader<Element, Promoted>(
+            arrayLoader: self,
+            transform: { (state: LoaderState<Element, Error>) in state.mapError({ _ in () as! Promoted }) }
+        )
+    }
+}
