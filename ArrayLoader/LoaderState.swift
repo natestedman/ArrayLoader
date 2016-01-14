@@ -23,6 +23,28 @@ public struct LoaderState<Element, Error: ErrorType>
     public let previousPageState: PageState<Error>
 }
 
+
+extension LoaderState
+{
+    // MARK: - Error Transformations
+
+    /**
+    Transforms the loader state's error type.
+
+    - parameter transform: An error transformation function.
+
+    - returns: A loader state with the same elements, and transformed page states.
+    */
+    public func mapError<Other: ErrorType>(transform: Error -> Other) -> LoaderState<Element, Other>
+    {
+        return LoaderState<Element, Other>(
+            elements: elements,
+            nextPageState: nextPageState.mapError(transform),
+            previousPageState: previousPageState.mapError(transform)
+        )
+    }
+}
+
 // MARK: - Equatability
 
 /**
