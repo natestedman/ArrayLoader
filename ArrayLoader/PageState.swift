@@ -83,6 +83,34 @@ extension PageState
     }
 }
 
+extension PageState
+{
+    // MARK: - Error Transformations
+
+    /**
+    Transforms the page state's error type.
+
+    - parameter transform: An error transformation function.
+
+    - returns: If the page state is `.Failed`, a `.Failed` state with a transformed error. Otherwise, the same state,
+               with a new associated error type.
+    */
+    public func mapError<Other: ErrorType>(transform: Error -> Other) -> PageState<Other>
+    {
+        switch self
+        {
+        case .HasMore:
+            return .HasMore
+        case .Completed:
+            return .Completed
+        case .Loading:
+            return .Loading
+        case .Failed(let error):
+            return .Failed(transform(error))
+        }
+    }
+}
+
 // MARK: - Equatable
 extension PageState: Equatable {}
 
