@@ -9,6 +9,7 @@
 // this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 
 import ReactiveCocoa
+import Result
 
 /// The property type used for `ArrayLoader` extensions.
 public final class DerivedProperty<Value>: PropertyType
@@ -45,5 +46,11 @@ public final class DerivedProperty<Value>: PropertyType
     {
         // strongly reference self until the property is disposed
         return wrapped.producer.on(disposed: { self })
+    }
+
+    /// A signal for the property's values.
+    public var signal: Signal<Value, NoError>
+    {
+        return wrapped.signal.on(disposed: { self })
     }
 }

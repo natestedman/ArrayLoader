@@ -9,6 +9,7 @@
 // this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 
 import ReactiveCocoa
+import Result
 
 /// Loads data synchronously from a static backing array.
 public struct StaticArrayLoader<Element>

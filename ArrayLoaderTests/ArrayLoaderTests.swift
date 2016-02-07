@@ -10,6 +10,7 @@
 
 @testable import ArrayLoader
 import ReactiveCocoa
+import Result
 import XCTest
 
 class ArrayLoaderTests: XCTestCase

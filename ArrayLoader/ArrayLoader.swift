@@ -9,6 +9,7 @@
 // this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 
 import ReactiveCocoa
+import Result
 
 /// The base protocol for array loader types.
 ///
