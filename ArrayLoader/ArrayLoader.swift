@@ -25,10 +25,10 @@ public protocol ArrayLoader
     // MARK: - Types
     
     /// The element type of the array loader.
-    typealias Element
+    associatedtype Element
     
     /// The error type of the array loader.
-    typealias Error: ErrorType
+    associatedtype Error: ErrorType
     
     // MARK: - State
     

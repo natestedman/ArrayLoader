@@ -16,7 +16,7 @@ public protocol LoadRequestType
     // MARK: - Types
     
     /// The element type of the array loader.
-    typealias Element
+    associatedtype Element
     
     // MARK: - Properties
     
