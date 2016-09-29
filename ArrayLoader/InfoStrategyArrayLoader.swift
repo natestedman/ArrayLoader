@@ -189,6 +189,7 @@ extension InfoStrategyArrayLoader
             result: result,
             combine: { current, new in current + new } ,
             pageEventForLoaded: LoaderEvent<Element, Error>.NextPageLoaded,
+            pageEventForFailed: LoaderEvent.NextPageFailed,
             nextPageStateForSuccess: InfoStrategyArrayLoader.hasMoreIfNoMutation,
             previousPageStateForSuccess: InfoStrategyArrayLoader.currentIfNoMutation,
             nextPageStateForFailure: { _, error in .Failed(error) },
@@ -202,6 +203,7 @@ extension InfoStrategyArrayLoader
             result: result,
             combine: { current, new in new + current },
             pageEventForLoaded: LoaderEvent<Element, Error>.PreviousPageLoaded,
+            pageEventForFailed: LoaderEvent.PreviousPageFailed,
             nextPageStateForSuccess: InfoStrategyArrayLoader.currentIfNoMutation,
             previousPageStateForSuccess: InfoStrategyArrayLoader.hasMoreIfNoMutation,
             nextPageStateForFailure: { current, _ in current },
@@ -212,6 +214,7 @@ extension InfoStrategyArrayLoader
     private func pageCompletion(result result: PageResult,
                                 combine: (current: [Element], new: [Element]) -> [Element],
                                 pageEventForLoaded: (LoaderState<Element, Error>, [Element]) -> LoaderEvent<Element, Error>,
+                                pageEventForFailed: LoaderState<Element, Error> -> LoaderEvent<Element, Error>,
                                 nextPageStateForSuccess: PageStateForSuccess,
                                 previousPageStateForSuccess: PageStateForSuccess,
                                 nextPageStateForFailure: PageStateForFailure,
@@ -244,7 +247,7 @@ extension InfoStrategyArrayLoader
 
         case let .Failure(error):
             infoState.modify({ current in
-                InfoLoaderState(
+                let newState = InfoLoaderState(
                     loaderState: LoaderState(
                         elements: current.loaderState.elements,
                         nextPageState: nextPageStateForFailure(
@@ -259,6 +262,10 @@ extension InfoStrategyArrayLoader
                     nextInfo: current.nextInfo,
                     previousInfo: current.previousInfo
                 )
+
+                eventsPipe.1.sendNext(pageEventForFailed(newState.loaderState))
+
+                return newState
             })
         }
     }

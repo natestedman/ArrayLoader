@@ -26,6 +26,12 @@ public enum LoaderEvent<Element, Error: ErrorType>
 
     /// This event will be send when the array loader successfully loads the previous page.
     case PreviousPageLoaded(state: LoaderState<Element, Error>, newElements: [Element])
+
+    /// The array loader failed to load its next page.
+    case NextPageFailed(state: LoaderState<Element, Error>)
+
+    /// The array loader failed to load its previous page.
+    case PreviousPageFailed(state: LoaderState<Element, Error>)
 }
 
 extension LoaderEvent
@@ -91,6 +97,30 @@ extension LoaderEvent
             return false
         }
     }
+
+    /// `true` if the event is `.NextPageFailed`.
+    public var isNextPageFailed: Bool
+    {
+        switch self
+        {
+        case .NextPageFailed:
+            return true
+        default:
+            return false
+        }
+    }
+
+    /// `true` if the event is `.PreviousPageFailed`.
+    public var isPreviousPageFailed: Bool
+    {
+        switch self
+        {
+        case .PreviousPageFailed:
+            return true
+        default:
+            return false
+        }
+    }
 }
 
 extension LoaderEvent
@@ -111,6 +141,10 @@ extension LoaderEvent
         case let .NextPageLoaded(state, _):
             return state
         case let .PreviousPageLoaded(state, _):
+            return state
+        case let .NextPageFailed(state):
+            return state
+        case let .PreviousPageFailed(state):
             return state
         }
     }
@@ -157,6 +191,12 @@ extension LoaderEvent
 
         case let .PreviousPageLoaded(state, newElements):
             return .PreviousPageLoaded(state: state.mapError(transform), newElements: newElements)
+
+        case let .NextPageFailed(state):
+            return .NextPageFailed(state: state.mapError(transform))
+
+        case let .PreviousPageFailed(state):
+            return .PreviousPageFailed(state: state.mapError(transform))
         }
     }
 }
