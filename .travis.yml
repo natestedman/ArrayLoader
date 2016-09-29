@@ -1,7 +1,7 @@
 language: objective-c
 xcode_project: ArrayLoader.xcodeproj
 xcode_scheme: ArrayLoader-OSX
-osx_image: xcode8.0
+osx_image: xcode8
 before_install: true
 install: true
 git:
