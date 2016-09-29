@@ -9,6 +9,7 @@
 // this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 
 import ReactiveCocoa
+import enum Result.NoError
 
 /// An array loader that uses strategy functions to retrieve and combine element arrays.
 ///
@@ -24,39 +25,18 @@ public final class StrategyArrayLoader<Element, Error: ErrorType>
     /// Currently, only a single `next` value is supported. Subsequent values will be discarded.
     public typealias LoadStrategy = LoadRequest<Element> -> SignalProducer<LoadResult<Element>, Error>
     
-    /// The type used to combine array pages with current information.
-    ///
-    /// For previous pages, the arguments will be (`newContent`, `currentContent`). For next pages, the arguments will
-    /// be (`currentContent`, `newContent`). This allows the `+` operator to be used for implementations that do not
-    /// need to handle potentially overlapping data.
-    public typealias CombineStrategy = ([Element], [Element]) -> [Element]
-    
     // MARK: - Initialization
     
     /**
     Initializes a strategy array loader.
-    
-    - parameter scheduler:       The array loader's state property - and thus its derived properties provided by
-                                 `ArrayLoader` - will be updated on this scheduler. If this parameter is omitted,
-                                 `QueueScheduler.mainQueueScheduler` will be used.
+
     - parameter load:            The load strategy to use.
-    - parameter combineNext:     The combine strategy to use for next pages. The first parameter sent to this function
-                                 is the current content, and the second parameter is the newly loaded content. If this
-                                 parameter is omitted, `+` will be used.
-    - parameter combinePrevious: The combine strategy to use for previous pages. The first parameter sent to this
-                                 function is the new loadeded content, and the second parameter is the current content.
-                                 If this parameter is omitted, `+` will be used.
     */
-    public init(
-        scheduler: SchedulerType = QueueScheduler.mainQueueScheduler,
-        load: LoadStrategy,
-        combineNext: CombineStrategy = (+),
-        combinePrevious: CombineStrategy = (+))
+    public init(load: LoadStrategy)
     {
         self.backing = InfoStrategyArrayLoader(
             nextInfo: (),
             previousInfo: (),
-            scheduler: scheduler,
             load: { request in
                 load(request.loadRequest).map({ result in
                     InfoLoadResult(
@@ -67,9 +47,7 @@ public final class StrategyArrayLoader<Element, Error: ErrorType>
                         previousPageInfo: .DoNotReplace
                     )
                 })
-            },
-            combineNext: combineNext,
-            combinePrevious: combinePrevious
+            }
         )
     }
     
@@ -87,6 +65,14 @@ extension StrategyArrayLoader: ArrayLoader
     public var state: AnyProperty<LoaderState<Element, Error>>
     {
         return backing.state
+    }
+
+    // MARK: - Page Events
+
+    /// The events for the array loader.
+    public var events: SignalProducer<LoaderEvent<Element, Error>, NoError>
+    {
+        return backing.events
     }
     
     // MARK: - Loading Pages

@@ -9,6 +9,7 @@
 // this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 
 import ReactiveCocoa
+import Result
 
 /// An array loader that uses strategy functions to retrieve and combine element arrays, and provides an `Info`
 /// parameter where arbitrary non-element data can be stored for the previous and next page. This data will be passed
@@ -22,25 +23,6 @@ public final class InfoStrategyArrayLoader<Element, Info, Error: ErrorType>
     /// Currently, only a single `next` value is supported. Subsequent values will be discarded.
     public typealias LoadStrategy = InfoLoadRequest<Element, Info> -> SignalProducer<InfoLoadResult<Element, Info>, Error>
     
-    /// The type used to combine array pages with current information.
-    ///
-    /// For previous pages, the arguments will be (`newContent`, `currentContent`). For next pages, the arguments will
-    /// be (`currentContent`, `newContent`). This allows the `+` operator to be used for implementations that do not
-    /// need to handle potentially overlapping data.
-    public typealias CombineStrategy = ([Element], [Element]) -> [Element]
-    
-    // MARK: - State
-    
-    /// Backing property for `state`.
-    let _state = MutableProperty(LoaderState<Element, Error>(
-        elements: [],
-        nextPageState: .HasMore,
-        previousPageState: .HasMore
-    ))
-    
-    /// The current state of the array loader.
-    public let state: AnyProperty<LoaderState<Element, Error>>
-    
     // MARK: - Initialization
     
     /**
@@ -48,9 +30,6 @@ public final class InfoStrategyArrayLoader<Element, Info, Error: ErrorType>
     
     - parameter nextInfo:        The initial next page info value.
     - parameter previousInfo:    The initial previous page info value.
-    - parameter scheduler:       The array loader's state property - and thus its derived properties provided by
-                                 `ArrayLoader` - will be updated on this scheduler. If this parameter is omitted,
-                                 `QueueScheduler.mainQueueScheduler` will be used.
     - parameter load:            The load strategy to use.
     - parameter combineNext:     The combine strategy to use for next pages. The first parameter sent to this function
                                  is the current content, and the second parameter is the newly loaded content. If this
@@ -59,58 +38,67 @@ public final class InfoStrategyArrayLoader<Element, Info, Error: ErrorType>
                                  function is the new loadeded content, and the second parameter is the current content.
                                  If this parameter is omitted, `+` will be used.
     */
-    public init(
-        nextInfo: Info,
-        previousInfo: Info,
-        scheduler: SchedulerType = QueueScheduler.mainQueueScheduler,
-        load: LoadStrategy,
-        combineNext: CombineStrategy = (+),
-        combinePrevious: CombineStrategy = (+))
+    public init(nextInfo: Info, previousInfo: Info, load: LoadStrategy)
     {
-        // set infos
-        self.nextInfo = nextInfo
-        self.previousInfo = previousInfo
-        
-        // set scheduler
-        self.scheduler = scheduler
-        
-        // set strategies
         loadStrategy = load
-        nextCombineStrategy = combineNext
-        previousCombineStrategy = combinePrevious
-        
-        // set up public properties
-        state = AnyProperty(_state)
+
+        infoState = MutableProperty(InfoLoaderState(
+            loaderState: LoaderState(
+                elements: [],
+                nextPageState: .HasMore,
+                previousPageState: .HasMore
+            ),
+            nextInfo: nextInfo,
+            previousInfo: previousInfo
+        ))
+
+        state = infoState.map({ $0.loaderState })
     }
+
+    deinit
+    {
+        nextPageDisposable.dispose()
+        previousPageDisposable.dispose()
+    }
+
+    // MARK: - State
     
-    // MARK: - Info
+    /// A backing property for `state`, which also holds the array loader's info values.
+    let infoState: MutableProperty<InfoLoaderState<Element, Info, Error>>
     
-    /// The current info value for the next page.
-    var nextInfo: Info
-    
-    /// The current info value for the previous page.
-    var previousInfo: Info
+    /// The current state of the array loader.
+    public let state: AnyProperty<LoaderState<Element, Error>>
     
     // MARK: - Strategies
     
     /// The load strategy.
     let loadStrategy: LoadStrategy
-    
-    // The combine strategy used for appending next pages to the array.
-    let nextCombineStrategy: CombineStrategy
-    
-    /// The combine strategy used for prepending previous pages to the array.
-    let previousCombineStrategy: CombineStrategy
-    
-    // MARK: - Scheduler
-    
-    /// The scheduler to use.
-    let scheduler: SchedulerType
+
+    // MARK: - Pipes
+
+    /// A backing pipe for `events`.
+    private let eventsPipe = Signal<LoaderEvent<Element, Error>, NoError>.pipe()
+
+    // MARK: - Page Disposables
+
+    /// A disposable for the operation loading the next page.
+    private let nextPageDisposable = SerialDisposable()
+
+    /// A disposable for the operation loading the previous page.
+    private let previousPageDisposable = SerialDisposable()
 }
 
 // MARK: - ArrayLoader
 extension InfoStrategyArrayLoader: ArrayLoader
 {
+    // MARK: - Page Events
+
+    /// The array loader's events.
+    public var events: SignalProducer<LoaderEvent<Element, Error>, NoError>
+    {
+        return state.producer.take(1).map(LoaderEvent.Current).concat(SignalProducer(signal: eventsPipe.0))
+    }
+
     // MARK: - Loading Pages
     
     /// Loads the next page of the array loader, if one is available. If the next page is already loading, or no next
@@ -120,54 +108,27 @@ extension InfoStrategyArrayLoader: ArrayLoader
     /// change to `.Loading` when this function is called, as long as the next page state is not `.Completed`.
     public func loadNextPage()
     {
-        if nextPageState.value.isHasMore
-        {
-            let elements = _state.value.elements
-            
-            // set the next page state to loading
-            _state.value = LoaderState(
-                elements: elements,
-                nextPageState: .Loading,
-                previousPageState: _state.value.previousPageState
+        guard state.value.nextPageState.isHasMore || state.value.nextPageState.error != nil else { return }
+
+        // set the next page state to loading
+        let current = infoState.modify({ current in
+            InfoLoaderState(
+                loaderState: LoaderState(
+                    elements: current.loaderState.elements,
+                    nextPageState: .Loading,
+                    previousPageState: current.loaderState.previousPageState
+                ),
+                nextInfo: current.nextInfo,
+                previousInfo: current.previousInfo
             )
+        })
             
-            loadStrategy(InfoLoadRequest.Next(current: elements, info: nextInfo))
+        nextPageDisposable.innerDisposable =
+            loadStrategy(.Next(current: current.loaderState.elements, info: current.nextInfo))
                 .take(1)
-                .observeOn(scheduler)
-                .on(next: { [weak self] result in
-                    if let strongSelf = self
-                    {
-                        let state = strongSelf._state.value
-                        
-                        strongSelf.nextInfo = result.nextPageInfo.value ?? strongSelf.nextInfo
-                        strongSelf.previousInfo = result.previousPageInfo.value ?? strongSelf.nextInfo
-                        
-                        strongSelf._state.value = LoaderState<Element, Error>(
-                            elements: strongSelf.nextCombineStrategy(state.elements, result.elements),
-                            
-                            nextPageState: result.nextPageHasMore.value.map({ hasMore in
-                                hasMore ? .HasMore : .Completed
-                            }) ?? .HasMore,
-                            
-                            previousPageState: result.previousPageHasMore.value.map({ hasMore in
-                                hasMore ? .HasMore : .Completed
-                            }) ?? state.previousPageState
-                        )
-                    }
-                }, failed: { [weak self] error in
-                    if let strongSelf = self
-                    {
-                        let state = strongSelf._state.value
-                        
-                        strongSelf._state.value = LoaderState(
-                            elements: state.elements,
-                            nextPageState: .Failed(error),
-                            previousPageState: state.previousPageState
-                        )
-                    }
+                .startWithResult({ [weak self] result in
+                    self?.nextPageCompletion(result: result)
                 })
-                .start()
-        }
     }
     
     /// Loads the previous page of the array loader, if one is available. If the previous page is already loading, or no
@@ -177,54 +138,131 @@ extension InfoStrategyArrayLoader: ArrayLoader
     /// change to `.Loading` when this function is called, as long as the next page state is not `.Completed`.
     public func loadPreviousPage()
     {
-        if previousPageState.value.isHasMore
-        {
-            let elements = _state.value.elements
-            
-            // set the next page state to loading
-            _state.value = LoaderState(
-                elements: elements,
-                nextPageState: _state.value.previousPageState,
-                previousPageState: .Loading
+        guard state.value.previousPageState.isHasMore || state.value.previousPageState.error != nil else { return }
+        
+        // set the previous page state to loading
+        let current = infoState.modify({ current in
+            InfoLoaderState(
+                loaderState: LoaderState(
+                    elements: current.loaderState.elements,
+                    nextPageState: current.loaderState.previousPageState,
+                    previousPageState: .Loading
+                ),
+                nextInfo: current.nextInfo,
+                previousInfo: current.previousInfo
             )
-            
-            loadStrategy(InfoLoadRequest.Previous(current: elements, info: previousInfo))
+        })
+
+        previousPageDisposable.innerDisposable =
+            loadStrategy(.Previous(current: current.loaderState.elements, info: current.previousInfo))
                 .take(1)
-                .observeOn(scheduler)
-                .on(next: { [weak self] result in
-                    if let strongSelf = self
-                    {
-                        let state = strongSelf._state.value
-                        
-                        strongSelf.nextInfo = result.nextPageInfo.value ?? strongSelf.nextInfo
-                        strongSelf.previousInfo = result.previousPageInfo.value ?? strongSelf.nextInfo
-                        
-                        strongSelf._state.value = LoaderState(
-                            elements: strongSelf.nextCombineStrategy(result.elements, state.elements),
-                            
-                            nextPageState: result.nextPageHasMore.value.map({ hasMore in
-                                hasMore ? .HasMore : .Completed
-                            }) ?? state.nextPageState,
-                            
-                            previousPageState: result.previousPageHasMore.value.map({ hasMore in
-                                hasMore ? .HasMore : .Completed
-                            }) ?? .HasMore
-                        )
-                    }
-                }, failed: { [weak self] error in
-                    if let strongSelf = self
-                    {
-                        let state = strongSelf._state.value
-                        
-                        strongSelf._state.value = LoaderState(
-                            elements: state.elements,
-                            nextPageState: state.nextPageState,
-                            previousPageState: .Failed(error)
-                        )
-                    }
+                .startWithResult({ [weak self] result in
+                    self?.previousPageCompletion(result: result)
                 })
-                .start()
+    }
+}
+
+extension InfoStrategyArrayLoader
+{
+    // MARK: - Load Request Completion
+    private typealias PageResult = Result<InfoLoadResult<Element, Info>, Error>
+    private typealias PageStateForSuccess = (current: PageState<Error>, mutation: Mutation<Bool>) -> PageState<Error>
+    private typealias PageStateForFailure = (current: PageState<Error>, error: Error) -> PageState<Error>
+
+    static func currentIfNoMutation(current current: PageState<Error>, mutation: Mutation<Bool>) -> PageState<Error>
+    {
+        return mutation.value.map({ hasMore in hasMore ? .HasMore : .Completed }) ?? current
+    }
+
+    static func hasMoreIfNoMutation(current current: PageState<Error>, mutation: Mutation<Bool>) -> PageState<Error>
+    {
+        return mutation.value.map({ hasMore in hasMore ? .HasMore : .Completed }) ?? .HasMore
+    }
+
+    private func nextPageCompletion(result result: PageResult)
+    {
+        pageCompletion(
+            result: result,
+            combine: { current, new in current + new } ,
+            pageEventForElements: LoaderEvent<Element, Error>.Next,
+            nextPageStateForSuccess: InfoStrategyArrayLoader.hasMoreIfNoMutation,
+            previousPageStateForSuccess: InfoStrategyArrayLoader.currentIfNoMutation,
+            nextPageStateForFailure: { _, error in .Failed(error) },
+            previousPageStateForFailure: { current, _ in current }
+        )
+    }
+
+    private func previousPageCompletion(result result: PageResult)
+    {
+        pageCompletion(
+            result: result,
+            combine: { current, new in new + current },
+            pageEventForElements: LoaderEvent<Element, Error>.Previous,
+            nextPageStateForSuccess: InfoStrategyArrayLoader.currentIfNoMutation,
+            previousPageStateForSuccess: InfoStrategyArrayLoader.hasMoreIfNoMutation,
+            nextPageStateForFailure: { current, _ in current },
+            previousPageStateForFailure: { _, error in .Failed(error) }
+        )
+    }
+
+    private func pageCompletion(result result: PageResult,
+                                combine: (current: [Element], new: [Element]) -> [Element],
+                                pageEventForElements: (LoaderState<Element, Error>, [Element]) -> LoaderEvent<Element, Error>,
+                                nextPageStateForSuccess: PageStateForSuccess,
+                                previousPageStateForSuccess: PageStateForSuccess,
+                                nextPageStateForFailure: PageStateForFailure,
+                                previousPageStateForFailure: PageStateForFailure)
+    {
+        switch result
+        {
+        case let .Success(loadResult):
+            infoState.modify({ current in
+                let newState = InfoLoaderState(
+                    loaderState: LoaderState(
+                        elements: combine(current: current.loaderState.elements, new: loadResult.elements),
+                        nextPageState: nextPageStateForSuccess(
+                            current: current.loaderState.nextPageState,
+                            mutation: loadResult.nextPageHasMore
+                        ),
+                        previousPageState: previousPageStateForSuccess(
+                            current: current.loaderState.previousPageState,
+                            mutation: loadResult.previousPageHasMore
+                        )
+                    ),
+                    nextInfo: loadResult.nextPageInfo.value ?? current.nextInfo,
+                    previousInfo: loadResult.previousPageInfo.value ?? current.previousInfo
+                )
+
+                eventsPipe.1.sendNext(pageEventForElements(newState.loaderState, loadResult.elements))
+
+                return newState
+            })
+
+        case let .Failure(error):
+            infoState.modify({ current in
+                InfoLoaderState(
+                    loaderState: LoaderState(
+                        elements: current.loaderState.elements,
+                        nextPageState: nextPageStateForFailure(
+                            current: current.loaderState.nextPageState,
+                            error: error
+                        ),
+                        previousPageState: previousPageStateForFailure(
+                            current: current.loaderState.previousPageState,
+                            error: error
+                        )
+                    ),
+                    nextInfo: current.nextInfo,
+                    previousInfo: current.previousInfo
+                )
+            })
         }
     }
 }
 
+struct InfoLoaderState<Element, Info, Error: ErrorType>
+{
+    let loaderState: LoaderState<Element, Error>
+    let nextInfo: Info
+    let previousInfo: Info
+}

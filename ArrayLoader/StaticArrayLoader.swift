@@ -50,6 +50,9 @@ extension StaticArrayLoader
 extension StaticArrayLoader: ArrayLoader
 {
     // MARK: - Typealiases
+
+    /// Static array loaders cannot error, as all elements are loaded immediately. To compose with other erroring array
+    /// loaders, use `promoteErrors(:)`.
     public typealias Error = NoError
     
     // MARK: - Loading Elements
@@ -59,4 +62,12 @@ extension StaticArrayLoader: ArrayLoader
     
     /// Static array loaders only have one page, so this function does nothing.
     public func loadPreviousPage() {}
+
+    // MARK: - Events
+
+    /// A static array loader's events will yield a single event: `.Initial`, then complete.
+    public var events: SignalProducer<LoaderEvent<Element, Error>, NoError>
+    {
+        return SignalProducer(value: .Current(state: state.value))
+    }
 }

@@ -34,6 +34,12 @@ public protocol ArrayLoader
     
     /// The current state of the array loader.
     var state: AnyProperty<LoaderState<Element, Error>> { get }
+
+    // MARK: - Events
+
+    /// A producer for the events of the array loader. When started, this producer will immediately yield a
+    /// `.Current` event.
+    var events: SignalProducer<LoaderEvent<Element, Error>, NoError> { get }
     
     // MARK: - Loading Elements
     
@@ -96,9 +102,6 @@ extension ArrayLoader where Error == NoError
     */
     public func promoteErrors<Promoted: ErrorType>(error: Promoted.Type) -> AnyArrayLoader<Element, Promoted>
     {
-        return AnyArrayLoader<Element, Promoted>(
-            arrayLoader: self,
-            transform: { (state: LoaderState<Element, Error>) in state.mapError({ _ in () as! Promoted }) }
-        )
+        return AnyArrayLoader(arrayLoader: self, transformErrors: { $0 as! Promoted })
     }
 }

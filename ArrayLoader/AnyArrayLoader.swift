@@ -9,6 +9,7 @@
 // this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 
 import ReactiveCocoa
+import enum Result.NoError
 
 /// Wraps any array loader of the given element and error types in a single type.
 ///
@@ -20,6 +21,11 @@ public struct AnyArrayLoader<Element, Error: ErrorType>
     
     /// The current state of the array loader.
     public let state: AnyProperty<LoaderState<Element, Error>>
+
+    // MARK: - Events
+
+    /// The wrapped array loader's events.
+    public let events: SignalProducer<LoaderEvent<Element, Error>, NoError>
     
     // MARK: - Load Functions
     
@@ -32,10 +38,12 @@ public struct AnyArrayLoader<Element, Error: ErrorType>
     // MARK: - Initialization
     private init(
         state: AnyProperty<LoaderState<Element, Error>>,
+        events: SignalProducer<LoaderEvent<Element, Error>, NoError>,
         loadNextPage: () -> (),
         loadPreviousPage: () -> ())
     {
         self.state = state
+        self.events = events
         _loadNextPage = loadNextPage
         _loadPreviousPage = loadPreviousPage
     }
@@ -51,38 +59,20 @@ extension AnyArrayLoader
      - parameter arrayLoader: The array loader to wrap.
      - parameter transform:   The state transform function.
      */
-    public init<Wrapped: ArrayLoader>
-        (arrayLoader: Wrapped, transform: LoaderState<Wrapped.Element, Wrapped.Error> -> LoaderState<Element, Error>)
+    public init<Wrapped: ArrayLoader where Wrapped.Element == Element>
+        (arrayLoader: Wrapped, transformErrors: Wrapped.Error -> Error)
     {
         self.init(
-            state: AnyProperty<LoaderState<Element, Error>>(
-                initialValue: transform(arrayLoader.state.value),
-                producer: arrayLoader.state.producer.skip(1).map(transform)
-            ),
+            state: arrayLoader.state.map({ state in
+                return LoaderState(
+                    elements: state.elements,
+                    nextPageState: state.nextPageState.mapError(transformErrors),
+                    previousPageState: state.previousPageState.mapError(transformErrors)
+                )
+            }),
+            events: arrayLoader.events.map({ $0.mapError(transformErrors) }),
             loadNextPage: arrayLoader.loadNextPage,
             loadPreviousPage: arrayLoader.loadPreviousPage
-        )
-    }
-    
-    /**
-     Initializes an `AnyArrayLoader` with an `ArrayLoader` that matches error types, and a transform function to map the
-     array loader's elements.
-     
-     - parameter arrayLoader: The array loader to wrap.
-     - parameter transform:   The element transform function.
-     */
-    public init<Wrapped: ArrayLoader where Wrapped.Error == Error>
-        (arrayLoader: Wrapped, transform: Wrapped.Element -> Element)
-    {
-        self.init(
-            arrayLoader: arrayLoader,
-            transform: { state in
-                LoaderState(
-                    elements: state.elements.map(transform),
-                    nextPageState: state.nextPageState,
-                    previousPageState: state.previousPageState
-                )
-            }
         )
     }
     
@@ -91,12 +81,13 @@ extension AnyArrayLoader
      
      - parameter arrayLoader: The array loader to wrap.
      */
-    public init<Wrapped: ArrayLoader where Wrapped.Element == Element, Wrapped.Error == Error>
-        (_ arrayLoader: Wrapped)
+    public init<Wrapped: ArrayLoader where Wrapped.Element == Element, Wrapped.Error == Error>(_ arrayLoader: Wrapped)
     {
         self.init(
-            arrayLoader: arrayLoader,
-            transform: { state -> LoaderState<Element, Error> in state }
+            state: arrayLoader.state,
+            events: arrayLoader.events,
+            loadNextPage: arrayLoader.loadNextPage,
+            loadPreviousPage: arrayLoader.loadPreviousPage
         )
     }
 }
