@@ -8,5 +8,5 @@ git:
   submodules: false
 script:
   - /usr/local/bin/carthage bootstrap --platform Mac --no-use-binaries
-  - xctool -project ArrayLoader.xcodeproj -scheme ArrayLoader-OSX
+  - xcodebuild -project ArrayLoader.xcodeproj -scheme ArrayLoader-OSX
   - xcodebuild test -project ArrayLoader.xcodeproj -scheme ArrayLoader-OSX
