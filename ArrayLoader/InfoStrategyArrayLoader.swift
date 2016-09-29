@@ -122,6 +122,8 @@ extension InfoStrategyArrayLoader: ArrayLoader
                 previousInfo: current.previousInfo
             )
         })
+
+        eventsPipe.1.sendNext(.NextPageLoading(state: infoState.value.loaderState))
             
         nextPageDisposable.innerDisposable =
             loadStrategy(.Next(current: current.loaderState.elements, info: current.nextInfo))
@@ -152,6 +154,8 @@ extension InfoStrategyArrayLoader: ArrayLoader
                 previousInfo: current.previousInfo
             )
         })
+
+        eventsPipe.1.sendNext(.PreviousPageLoading(state: infoState.value.loaderState))
 
         previousPageDisposable.innerDisposable =
             loadStrategy(.Previous(current: current.loaderState.elements, info: current.previousInfo))

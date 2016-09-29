@@ -15,6 +15,12 @@ public enum LoaderEvent<Element, Error: ErrorType>
     /// An array loader's `events` producer will send this event when started, with the loader's current state.
     case Current(state: LoaderState<Element, Error>)
 
+    /// The array loader began to load its next page.
+    case NextPageLoading(state: LoaderState<Element, Error>)
+
+    /// The array loader began to load its previous page.
+    case PreviousPageLoading(state: LoaderState<Element, Error>)
+
     /// This event will be send when the array loader successfully loads the next page.
     case NextPageLoaded(state: LoaderState<Element, Error>, newElements: [Element])
 
@@ -32,6 +38,30 @@ extension LoaderEvent
         switch self
         {
         case .Current:
+            return true
+        default:
+            return false
+        }
+    }
+
+    /// `true` if the event is `.NextPageLoading`.
+    public var isNextPageLoading: Bool
+    {
+        switch self
+        {
+        case .NextPageLoading:
+            return true
+        default:
+            return false
+        }
+    }
+
+    /// `true` if the event is `.PreviousPageLoading`.
+    public var isPreviousPageLoading: Bool
+    {
+        switch self
+        {
+        case .PreviousPageLoading:
             return true
         default:
             return false
@@ -74,6 +104,10 @@ extension LoaderEvent
         {
         case let .Current(state):
             return state
+        case let .NextPageLoading(state):
+            return state
+        case let .PreviousPageLoading(state):
+            return state
         case let .NextPageLoaded(state, _):
             return state
         case let .PreviousPageLoaded(state, _):
@@ -86,12 +120,12 @@ extension LoaderEvent
     {
         switch self
         {
-        case .Current:
-            return nil
         case let .NextPageLoaded(_, newElements):
             return newElements
         case let .PreviousPageLoaded(_, newElements):
             return newElements
+        default:
+            return nil
         }
     }
 }
@@ -111,8 +145,16 @@ extension LoaderEvent
         {
         case let .Current(state):
             return .Current(state: state.mapError(transform))
+
+        case let .NextPageLoading(state):
+            return .NextPageLoading(state: state.mapError(transform))
+
+        case let .PreviousPageLoading(state):
+            return .PreviousPageLoading(state: state.mapError(transform))
+
         case let .NextPageLoaded(state, newElements):
             return .NextPageLoaded(state: state.mapError(transform), newElements: newElements)
+
         case let .PreviousPageLoaded(state, newElements):
             return .PreviousPageLoaded(state: state.mapError(transform), newElements: newElements)
         }

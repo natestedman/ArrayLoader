@@ -53,15 +53,19 @@ class StrategyArrayLoaderTests: XCTestCase
         XCTAssertEqual(events.value[0].state.elements, [])
 
         arrayLoader.loadNextPage()
-        XCTAssertEqual(events.value.count, 2)
-        XCTAssertTrue(events.value[1].isNextPageLoaded)
-        XCTAssertEqual(events.value[1].state.elements, [1])
-        XCTAssertEqual(events.value[1].newElements ?? [], [1])
+        XCTAssertEqual(events.value.count, 3)
+        XCTAssertTrue(events.value[1].isNextPageLoading)
+        XCTAssertEqual(events.value[1].state.elements, [])
+        XCTAssertTrue(events.value[2].isNextPageLoaded)
+        XCTAssertEqual(events.value[2].state.elements, [1])
+        XCTAssertEqual(events.value[2].newElements ?? [], [1])
 
         arrayLoader.loadPreviousPage()
-        XCTAssertEqual(events.value.count, 3)
-        XCTAssertTrue(events.value[2].isPreviousPageLoaded)
-        XCTAssertEqual(events.value[2].state.elements, [0, 1])
-        XCTAssertEqual(events.value[2].newElements ?? [], [0])
+        XCTAssertEqual(events.value.count, 5)
+        XCTAssertTrue(events.value[3].isPreviousPageLoading)
+        XCTAssertEqual(events.value[3].state.elements, [1])
+        XCTAssertTrue(events.value[4].isPreviousPageLoaded)
+        XCTAssertEqual(events.value[4].state.elements, [0, 1])
+        XCTAssertEqual(events.value[4].newElements ?? [], [0])
     }
 }
