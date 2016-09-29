@@ -184,7 +184,7 @@ extension InfoStrategyArrayLoader
         pageCompletion(
             result: result,
             combine: { current, new in current + new } ,
-            pageEventForElements: LoaderEvent<Element, Error>.Next,
+            pageEventForLoaded: LoaderEvent<Element, Error>.NextPageLoaded,
             nextPageStateForSuccess: InfoStrategyArrayLoader.hasMoreIfNoMutation,
             previousPageStateForSuccess: InfoStrategyArrayLoader.currentIfNoMutation,
             nextPageStateForFailure: { _, error in .Failed(error) },
@@ -197,7 +197,7 @@ extension InfoStrategyArrayLoader
         pageCompletion(
             result: result,
             combine: { current, new in new + current },
-            pageEventForElements: LoaderEvent<Element, Error>.Previous,
+            pageEventForLoaded: LoaderEvent<Element, Error>.PreviousPageLoaded,
             nextPageStateForSuccess: InfoStrategyArrayLoader.currentIfNoMutation,
             previousPageStateForSuccess: InfoStrategyArrayLoader.hasMoreIfNoMutation,
             nextPageStateForFailure: { current, _ in current },
@@ -207,7 +207,7 @@ extension InfoStrategyArrayLoader
 
     private func pageCompletion(result result: PageResult,
                                 combine: (current: [Element], new: [Element]) -> [Element],
-                                pageEventForElements: (LoaderState<Element, Error>, [Element]) -> LoaderEvent<Element, Error>,
+                                pageEventForLoaded: (LoaderState<Element, Error>, [Element]) -> LoaderEvent<Element, Error>,
                                 nextPageStateForSuccess: PageStateForSuccess,
                                 previousPageStateForSuccess: PageStateForSuccess,
                                 nextPageStateForFailure: PageStateForFailure,
@@ -233,7 +233,7 @@ extension InfoStrategyArrayLoader
                     previousInfo: loadResult.previousPageInfo.value ?? current.previousInfo
                 )
 
-                eventsPipe.1.sendNext(pageEventForElements(newState.loaderState, loadResult.elements))
+                eventsPipe.1.sendNext(pageEventForLoaded(newState.loaderState, loadResult.elements))
 
                 return newState
             })

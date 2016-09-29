@@ -54,13 +54,13 @@ class StrategyArrayLoaderTests: XCTestCase
 
         arrayLoader.loadNextPage()
         XCTAssertEqual(events.value.count, 2)
-        XCTAssertTrue(events.value[1].isNext)
+        XCTAssertTrue(events.value[1].isNextPageLoaded)
         XCTAssertEqual(events.value[1].state.elements, [1])
         XCTAssertEqual(events.value[1].newElements ?? [], [1])
 
         arrayLoader.loadPreviousPage()
         XCTAssertEqual(events.value.count, 3)
-        XCTAssertTrue(events.value[2].isPrevious)
+        XCTAssertTrue(events.value[2].isPreviousPageLoaded)
         XCTAssertEqual(events.value[2].state.elements, [0, 1])
         XCTAssertEqual(events.value[2].newElements ?? [], [0])
     }
