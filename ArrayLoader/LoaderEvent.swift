@@ -16,22 +16,30 @@ public enum LoaderEvent<Element, Error: ErrorType>
     case Current(state: LoaderState<Element, Error>)
 
     /// The array loader began to load its next page.
-    case NextPageLoading(state: LoaderState<Element, Error>)
+    case NextPageLoading(state: LoaderState<Element, Error>, previousState: LoaderState<Element, Error>)
 
     /// The array loader began to load its previous page.
-    case PreviousPageLoading(state: LoaderState<Element, Error>)
+    case PreviousPageLoading(state: LoaderState<Element, Error>, previousState: LoaderState<Element, Error>)
 
     /// This event will be send when the array loader successfully loads the next page.
-    case NextPageLoaded(state: LoaderState<Element, Error>, newElements: [Element])
+    case NextPageLoaded(
+        state: LoaderState<Element, Error>,
+        previousState: LoaderState<Element, Error>,
+        newElements: [Element]
+    )
 
     /// This event will be send when the array loader successfully loads the previous page.
-    case PreviousPageLoaded(state: LoaderState<Element, Error>, newElements: [Element])
+    case PreviousPageLoaded(
+        state: LoaderState<Element, Error>,
+        previousState: LoaderState<Element, Error>,
+        newElements: [Element]
+    )
 
     /// The array loader failed to load its next page.
-    case NextPageFailed(state: LoaderState<Element, Error>)
+    case NextPageFailed(state: LoaderState<Element, Error>, previousState: LoaderState<Element, Error>)
 
     /// The array loader failed to load its previous page.
-    case PreviousPageFailed(state: LoaderState<Element, Error>)
+    case PreviousPageFailed(state: LoaderState<Element, Error>, previousState: LoaderState<Element, Error>)
 }
 
 extension LoaderEvent
@@ -134,18 +142,40 @@ extension LoaderEvent
         {
         case let .Current(state):
             return state
-        case let .NextPageLoading(state):
+        case let .NextPageLoading(state, _):
             return state
-        case let .PreviousPageLoading(state):
+        case let .PreviousPageLoading(state, _):
             return state
-        case let .NextPageLoaded(state, _):
+        case let .NextPageLoaded(state, _, _):
             return state
-        case let .PreviousPageLoaded(state, _):
+        case let .PreviousPageLoaded(state, _, _):
             return state
-        case let .NextPageFailed(state):
+        case let .NextPageFailed(state, _):
             return state
-        case let .PreviousPageFailed(state):
+        case let .PreviousPageFailed(state, _):
             return state
+        }
+    }
+
+    /// The previous state of the array loader at the time of the event. `Current` events do not have a previous state.
+    public var previousState: LoaderState<Element, Error>?
+    {
+        switch self
+        {
+        case .Current:
+            return nil
+        case let .NextPageLoading(_, previousState):
+            return previousState
+        case let .PreviousPageLoading(_, previousState):
+            return previousState
+        case let .NextPageLoaded(_, previousState, _):
+            return previousState
+        case let .PreviousPageLoaded(_, previousState, _):
+            return previousState
+        case let .NextPageFailed(_, previousState):
+            return previousState
+        case let .PreviousPageFailed(_, previousState):
+            return previousState
         }
     }
 
@@ -154,9 +184,9 @@ extension LoaderEvent
     {
         switch self
         {
-        case let .NextPageLoaded(_, newElements):
+        case let .NextPageLoaded(_, _, newElements):
             return newElements
-        case let .PreviousPageLoaded(_, newElements):
+        case let .PreviousPageLoaded(_, _, newElements):
             return newElements
         default:
             return nil
@@ -180,23 +210,43 @@ extension LoaderEvent
         case let .Current(state):
             return .Current(state: state.mapError(transform))
 
-        case let .NextPageLoading(state):
-            return .NextPageLoading(state: state.mapError(transform))
+        case let .NextPageLoading(state, previousState):
+            return .NextPageLoading(
+                state: state.mapError(transform),
+                previousState: previousState.mapError(transform)
+            )
 
-        case let .PreviousPageLoading(state):
-            return .PreviousPageLoading(state: state.mapError(transform))
+        case let .PreviousPageLoading(state, previousState):
+            return .PreviousPageLoading(
+                state: state.mapError(transform),
+                previousState: previousState.mapError(transform)
+            )
 
-        case let .NextPageLoaded(state, newElements):
-            return .NextPageLoaded(state: state.mapError(transform), newElements: newElements)
+        case let .NextPageLoaded(state, previousState, newElements):
+            return .NextPageLoaded(
+                state: state.mapError(transform),
+                previousState: previousState.mapError(transform),
+                newElements: newElements
+            )
 
-        case let .PreviousPageLoaded(state, newElements):
-            return .PreviousPageLoaded(state: state.mapError(transform), newElements: newElements)
+        case let .PreviousPageLoaded(state, previousState, newElements):
+            return .PreviousPageLoaded(
+                state: state.mapError(transform),
+                previousState: previousState.mapError(transform),
+                newElements: newElements
+            )
 
-        case let .NextPageFailed(state):
-            return .NextPageFailed(state: state.mapError(transform))
+        case let .NextPageFailed(state, previousState):
+            return .NextPageFailed(
+                state: state.mapError(transform),
+                previousState: previousState.mapError(transform)
+            )
 
-        case let .PreviousPageFailed(state):
-            return .PreviousPageFailed(state: state.mapError(transform))
+        case let .PreviousPageFailed(state, previousState):
+            return .PreviousPageFailed(
+                state: state.mapError(transform),
+                previousState: previousState.mapError(transform)
+            )
         }
     }
 }

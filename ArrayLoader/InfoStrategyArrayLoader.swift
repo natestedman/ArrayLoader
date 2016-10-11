@@ -123,8 +123,8 @@ extension InfoStrategyArrayLoader: ArrayLoader
             )
         })
 
-        eventsPipe.1.sendNext(.NextPageLoading(state: infoState.value.loaderState))
-            
+        eventsPipe.1.sendNext(.NextPageLoading(state: infoState.value.loaderState, previousState: current.loaderState))
+
         nextPageDisposable.innerDisposable =
             loadStrategy(.Next(current: current.loaderState.elements, info: current.nextInfo))
                 .take(1)
@@ -155,7 +155,10 @@ extension InfoStrategyArrayLoader: ArrayLoader
             )
         })
 
-        eventsPipe.1.sendNext(.PreviousPageLoading(state: infoState.value.loaderState))
+        eventsPipe.1.sendNext(.PreviousPageLoading(
+            state: infoState.value.loaderState,
+            previousState: current.loaderState
+        ))
 
         previousPageDisposable.innerDisposable =
             loadStrategy(.Previous(current: current.loaderState.elements, info: current.previousInfo))
@@ -213,8 +216,8 @@ extension InfoStrategyArrayLoader
 
     private func pageCompletion(result result: PageResult,
                                 combine: (current: [Element], new: [Element]) -> [Element],
-                                pageEventForLoaded: (LoaderState<Element, Error>, [Element]) -> LoaderEvent<Element, Error>,
-                                pageEventForFailed: LoaderState<Element, Error> -> LoaderEvent<Element, Error>,
+                                pageEventForLoaded: (LoaderState<Element, Error>, LoaderState<Element, Error>, [Element]) -> LoaderEvent<Element, Error>,
+                                pageEventForFailed: (LoaderState<Element, Error>, LoaderState<Element, Error>) -> LoaderEvent<Element, Error>,
                                 nextPageStateForSuccess: PageStateForSuccess,
                                 previousPageStateForSuccess: PageStateForSuccess,
                                 nextPageStateForFailure: PageStateForFailure,
@@ -240,7 +243,7 @@ extension InfoStrategyArrayLoader
                     previousInfo: loadResult.previousPageInfo.value ?? current.previousInfo
                 )
 
-                eventsPipe.1.sendNext(pageEventForLoaded(newState.loaderState, loadResult.elements))
+                eventsPipe.1.sendNext(pageEventForLoaded(newState.loaderState, current.loaderState, loadResult.elements))
 
                 return newState
             })
@@ -263,7 +266,7 @@ extension InfoStrategyArrayLoader
                     previousInfo: current.previousInfo
                 )
 
-                eventsPipe.1.sendNext(pageEventForFailed(newState.loaderState))
+                eventsPipe.1.sendNext(pageEventForFailed(newState.loaderState, current.loaderState))
 
                 return newState
             })
