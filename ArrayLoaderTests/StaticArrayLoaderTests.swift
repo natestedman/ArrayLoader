@@ -18,26 +18,26 @@ class StaticArrayLoaderTests: XCTestCase
     {
         let loader = StaticArrayLoader<Int>(elements: [])
         
-        XCTAssertEqual(loader.nextPageState.value, PageState.Completed)
-        XCTAssertEqual(loader.previousPageState.value, PageState.Completed)
-        XCTAssertEqual(loader.elements.value, [])
+        XCTAssertEqual(loader.nextPageState, PageState.Completed)
+        XCTAssertEqual(loader.previousPageState, PageState.Completed)
+        XCTAssertEqual(loader.elements, [])
     }
     
     func testContent()
     {
         let loader = StaticArrayLoader<Int>(elements: [0, 1, 2, 3, 4])
         
-        XCTAssertTrue(loader.nextPageState.value.isCompleted)
-        XCTAssertTrue(loader.previousPageState.value.isCompleted)
-        XCTAssertEqual(loader.elements.value, [0, 1, 2, 3, 4])
+        XCTAssertTrue(loader.nextPageState.isCompleted)
+        XCTAssertTrue(loader.previousPageState.isCompleted)
+        XCTAssertEqual(loader.elements, [0, 1, 2, 3, 4])
     }
     
     func testEmptyArrayLoader()
     {
         let loader = StaticArrayLoader<Int>.empty
         
-        XCTAssertEqual(loader.elements.value, [])
-        XCTAssertTrue(loader.nextPageState.value.isCompleted)
-        XCTAssertTrue(loader.previousPageState.value.isCompleted)
+        XCTAssertEqual(loader.elements, [])
+        XCTAssertTrue(loader.nextPageState.isCompleted)
+        XCTAssertTrue(loader.previousPageState.isCompleted)
     }
 }

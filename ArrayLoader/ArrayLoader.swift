@@ -55,39 +55,24 @@ public protocol ArrayLoader
 // MARK: - State Extensions
 extension ArrayLoader
 {
-    // MARK: - Utilities
-    
-    /**
-    Returns a property created by transforming the array loader's current state.
-    
-    - parameter transform: A transform function.
-    */
-    private func transformedStateProperty<T>(transform: LoaderState<Element, Error> -> T) -> DerivedProperty<T>
-    {
-        return DerivedProperty(wrapped: AnyProperty(
-            initialValue: transform(state.value),
-            producer: state.producer.skip(1).map(transform)
-        ))
-    }
-    
     // MARK: - Properties
     
     /// The elements currently loaded by the array loader.
-    public var elements: DerivedProperty<[Element]>
+    public var elements: [Element]
     {
-        return transformedStateProperty({ state in state.elements })
+        return state.value.elements
     }
     
     /// The next page state of the array loader.
-    public var nextPageState: DerivedProperty<PageState<Error>>
+    public var nextPageState: PageState<Error>
     {
-        return transformedStateProperty({ state in state.nextPageState })
+        return state.value.nextPageState
     }
     
     /// The previous page state of the array loader.
-    public var previousPageState: DerivedProperty<PageState<Error>>
+    public var previousPageState: PageState<Error>
     {
-        return transformedStateProperty({ state in state.previousPageState })
+        return state.value.previousPageState
     }
 }
 

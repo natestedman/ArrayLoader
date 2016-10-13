@@ -44,7 +44,6 @@
 		437FDF031BF56CF200A2A73E /* AnyArrayLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D93A021BF4E8980089D999 /* AnyArrayLoader.swift */; };
 		437FDF051BF56CF200A2A73E /* StaticArrayLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D93A091BF5004B0089D999 /* StaticArrayLoader.swift */; };
 		437FDF061BF56CF200A2A73E /* InfoStrategyArrayLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D93A041BF4E8A30089D999 /* InfoStrategyArrayLoader.swift */; };
-		437FDF071BF56CF200A2A73E /* DerivedProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D93A1F1BF558EB0089D999 /* DerivedProperty.swift */; };
 		437FDF081BF56CF200A2A73E /* LoaderState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4346EFD81BD987DF0066CD46 /* LoaderState.swift */; };
 		437FDF091BF56CF200A2A73E /* PageState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4346EFD41BD9807B0066CD46 /* PageState.swift */; };
 		437FDF0A1BF56CF500A2A73E /* ArrayLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 4346EFAC1BD9799F0066CD46 /* ArrayLoader.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -54,8 +53,6 @@
 		437FDF161BF56D8900A2A73E /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 437FDF0D1BF56D4900A2A73E /* Result.framework */; };
 		437FDF171BF56D8C00A2A73E /* ReactiveCocoa.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 437FDF0C1BF56D4900A2A73E /* ReactiveCocoa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		437FDF181BF56D8C00A2A73E /* Result.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 437FDF0D1BF56D4900A2A73E /* Result.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		43CEF09E1BF7A00800253943 /* DerivedPropertyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43CEF09D1BF7A00800253943 /* DerivedPropertyTests.swift */; };
-		43CEF09F1BF7A00800253943 /* DerivedPropertyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43CEF09D1BF7A00800253943 /* DerivedPropertyTests.swift */; };
 		43D93A031BF4E8990089D999 /* AnyArrayLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D93A021BF4E8980089D999 /* AnyArrayLoader.swift */; };
 		43D93A051BF4E8A30089D999 /* InfoStrategyArrayLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D93A041BF4E8A30089D999 /* InfoStrategyArrayLoader.swift */; };
 		43D93A0A1BF5004B0089D999 /* StaticArrayLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D93A091BF5004B0089D999 /* StaticArrayLoader.swift */; };
@@ -64,7 +61,6 @@
 		43D93A101BF511930089D999 /* LoaderStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D93A0F1BF511930089D999 /* LoaderStateTests.swift */; };
 		43D93A161BF5143C0089D999 /* ArrayLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D93A151BF5143C0089D999 /* ArrayLoaderTests.swift */; };
 		43D93A1E1BF54B570089D999 /* Mutation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D93A1D1BF54B570089D999 /* Mutation.swift */; };
-		43D93A201BF558EB0089D999 /* DerivedProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D93A1F1BF558EB0089D999 /* DerivedProperty.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -132,7 +128,6 @@
 		437FDEEA1BF56C7300A2A73E /* ArrayLoader-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ArrayLoader-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		437FDF0C1BF56D4900A2A73E /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveCocoa.framework; path = Carthage/Build/iOS/ReactiveCocoa.framework; sourceTree = "<group>"; };
 		437FDF0D1BF56D4900A2A73E /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
-		43CEF09D1BF7A00800253943 /* DerivedPropertyTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DerivedPropertyTests.swift; sourceTree = "<group>"; };
 		43D93A021BF4E8980089D999 /* AnyArrayLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyArrayLoader.swift; sourceTree = "<group>"; };
 		43D93A041BF4E8A30089D999 /* InfoStrategyArrayLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoStrategyArrayLoader.swift; sourceTree = "<group>"; };
 		43D93A091BF5004B0089D999 /* StaticArrayLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StaticArrayLoader.swift; sourceTree = "<group>"; };
@@ -141,7 +136,6 @@
 		43D93A0F1BF511930089D999 /* LoaderStateTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoaderStateTests.swift; sourceTree = "<group>"; };
 		43D93A151BF5143C0089D999 /* ArrayLoaderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayLoaderTests.swift; sourceTree = "<group>"; };
 		43D93A1D1BF54B570089D999 /* Mutation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mutation.swift; sourceTree = "<group>"; };
-		43D93A1F1BF558EB0089D999 /* DerivedProperty.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DerivedProperty.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -292,7 +286,6 @@
 		43D93A111BF513F00089D999 /* Array Loader Data */ = {
 			isa = PBXGroup;
 			children = (
-				43D93A1F1BF558EB0089D999 /* DerivedProperty.swift */,
 				4346EFD81BD987DF0066CD46 /* LoaderState.swift */,
 				430FE56A1D95A1D300C16DB9 /* LoaderEvent.swift */,
 				4346EFD41BD9807B0066CD46 /* PageState.swift */,
@@ -313,7 +306,6 @@
 		43D93A131BF514020089D999 /* Array Loader Data */ = {
 			isa = PBXGroup;
 			children = (
-				43CEF09D1BF7A00800253943 /* DerivedPropertyTests.swift */,
 				43D93A0F1BF511930089D999 /* LoaderStateTests.swift */,
 				4346EFD61BD982C00066CD46 /* PageStateTests.swift */,
 			);
@@ -513,7 +505,6 @@
 				43D93A0A1BF5004B0089D999 /* StaticArrayLoader.swift in Sources */,
 				4346EFDD1BD98D760066CD46 /* LoadResult.swift in Sources */,
 				43D93A031BF4E8990089D999 /* AnyArrayLoader.swift in Sources */,
-				43D93A201BF558EB0089D999 /* DerivedProperty.swift in Sources */,
 				4346EFD91BD987DF0066CD46 /* LoaderState.swift in Sources */,
 				43D93A051BF4E8A30089D999 /* InfoStrategyArrayLoader.swift in Sources */,
 				43D93A1E1BF54B570089D999 /* Mutation.swift in Sources */,
@@ -536,7 +527,6 @@
 				43D93A0E1BF506570089D999 /* StaticArrayLoaderTests.swift in Sources */,
 				435B70DE1D9CB14F002C6CB8 /* StrategyArrayLoaderTests.swift in Sources */,
 				430149461BFAA3B800F74B31 /* InfoLoadRequestTests.swift in Sources */,
-				43CEF09E1BF7A00800253943 /* DerivedPropertyTests.swift in Sources */,
 				434E4F991C0F49BA00DF9B75 /* LoadRequestTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -549,7 +539,6 @@
 				437FDF051BF56CF200A2A73E /* StaticArrayLoader.swift in Sources */,
 				437FDEFF1BF56CED00A2A73E /* Mutation.swift in Sources */,
 				437FDF031BF56CF200A2A73E /* AnyArrayLoader.swift in Sources */,
-				437FDF071BF56CF200A2A73E /* DerivedProperty.swift in Sources */,
 				436D2C251D95C3150053D9A2 /* LoaderEvent.swift in Sources */,
 				437FDF061BF56CF200A2A73E /* InfoStrategyArrayLoader.swift in Sources */,
 				437FDF081BF56CF200A2A73E /* LoaderState.swift in Sources */,
@@ -571,7 +560,6 @@
 				437FDEF91BF56CE900A2A73E /* AnyArrayLoaderTests.swift in Sources */,
 				435B70DF1D9CB14F002C6CB8 /* StrategyArrayLoaderTests.swift in Sources */,
 				430149471BFAA3B800F74B31 /* InfoLoadRequestTests.swift in Sources */,
-				43CEF09F1BF7A00800253943 /* DerivedPropertyTests.swift in Sources */,
 				434E4F9A1C0F49BA00DF9B75 /* LoadRequestTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

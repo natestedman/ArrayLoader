@@ -25,16 +25,16 @@ class StrategyArrayLoaderTests: XCTestCase
             ))
         }
 
-        XCTAssertEqual(arrayLoader.elements.value, [])
-        XCTAssertEqual(arrayLoader.nextPageState.value, PageState.HasMore)
+        XCTAssertEqual(arrayLoader.elements, [])
+        XCTAssertEqual(arrayLoader.nextPageState, PageState.HasMore)
 
         arrayLoader.loadNextPage()
-        XCTAssertEqual(arrayLoader.elements.value, [0])
-        XCTAssertEqual(arrayLoader.nextPageState.value, PageState.HasMore)
+        XCTAssertEqual(arrayLoader.elements, [0])
+        XCTAssertEqual(arrayLoader.nextPageState, PageState.HasMore)
 
         arrayLoader.loadNextPage()
-        XCTAssertEqual(arrayLoader.elements.value, [0, 1])
-        XCTAssertEqual(arrayLoader.nextPageState.value, PageState.Completed)
+        XCTAssertEqual(arrayLoader.elements, [0, 1])
+        XCTAssertEqual(arrayLoader.nextPageState, PageState.Completed)
     }
 
     func testLoaderEvents()

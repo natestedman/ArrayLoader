@@ -19,36 +19,8 @@ class ArrayLoaderTests: XCTestCase
     {
         let loader = StaticArrayLoader(elements: [0, 1, 2, 3, 4])
 
-        XCTAssertEqual(loader.state.value.elements, loader.elements.value)
-        XCTAssertEqual(loader.state.value.nextPageState, loader.nextPageState.value)
-        XCTAssertEqual(loader.state.value.previousPageState, loader.previousPageState.value)
-    }
-    
-    func testPropertyBinding()
-    {
-        let loader = StrategyArrayLoader<Int, NoError>(load: { request in
-            SignalProducer(value: LoadResult(elements: [0]))
-        })
-        
-        let elements = MutableProperty<[Int]>([])
-        elements <~ loader.elements.producer
-        
-        let nextPage = MutableProperty<PageState<NoError>>(.HasMore)
-        nextPage <~ loader.nextPageState.producer
-        
-        XCTAssertEqual(loader.elements.value, elements.value)
-        XCTAssertEqual(loader.nextPageState.value, nextPage.value)
-        
-        loader.loadNextPage()
-        XCTAssertEqual(loader.elements.value, elements.value)
-        XCTAssertEqual(loader.nextPageState.value, nextPage.value)
-        
-        loader.loadNextPage()
-        XCTAssertEqual(loader.elements.value, elements.value)
-        XCTAssertEqual(loader.nextPageState.value, nextPage.value)
-        
-        loader.loadNextPage()
-        XCTAssertEqual(loader.elements.value, elements.value)
-        XCTAssertEqual(loader.nextPageState.value, nextPage.value)
+        XCTAssertEqual(loader.state.value.elements, loader.elements)
+        XCTAssertEqual(loader.state.value.nextPageState, loader.nextPageState)
+        XCTAssertEqual(loader.state.value.previousPageState, loader.previousPageState)
     }
 }
