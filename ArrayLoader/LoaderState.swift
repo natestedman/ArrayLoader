@@ -26,7 +26,23 @@ public struct LoaderState<Element, Error: ErrorType>
 
 extension LoaderState
 {
-    // MARK: - Error Transformations
+    // MARK: - Transformations
+
+    /**
+     Transforms the loader state's element type.
+
+     - parameter transform: A transformation function.
+
+     - returns: A loader state with the transformed elements, and the same page states.
+     */
+    public func mapElements<Other>(transform: Element -> Other) -> LoaderState<Other, Error>
+    {
+        return LoaderState<Other, Error>(
+            elements: elements.map(transform),
+            nextPageState: nextPageState,
+            previousPageState: previousPageState
+        )
+    }
 
     /**
     Transforms the loader state's error type.

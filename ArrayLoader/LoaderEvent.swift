@@ -196,10 +196,62 @@ extension LoaderEvent
 
 extension LoaderEvent
 {
-    // MARK: - Error Transformations
+    // MARK: - Transformations
 
     /**
-     Transforms the page event's error type.
+     Transforms the loader event's element type.
+
+     - parameter transform: An element transformation function.
+     */
+    public func mapElements<Other>(transform: Element -> Other) -> LoaderEvent<Other, Error>
+    {
+        switch self
+        {
+        case let .Current(state):
+            return .Current(state: state.mapElements(transform))
+
+        case let .NextPageLoading(state, previousState):
+            return .NextPageLoading(
+                state: state.mapElements(transform),
+                previousState: previousState.mapElements(transform)
+            )
+
+        case let .PreviousPageLoading(state, previousState):
+            return .PreviousPageLoading(
+                state: state.mapElements(transform),
+                previousState: previousState.mapElements(transform)
+            )
+
+        case let .NextPageLoaded(state, previousState, newElements):
+            return .NextPageLoaded(
+                state: state.mapElements(transform),
+                previousState: previousState.mapElements(transform),
+                newElements: newElements.map(transform)
+            )
+
+        case let .PreviousPageLoaded(state, previousState, newElements):
+            return .PreviousPageLoaded(
+                state: state.mapElements(transform),
+                previousState: previousState.mapElements(transform),
+                newElements: newElements.map(transform)
+            )
+
+        case let .NextPageFailed(state, previousState):
+            return .NextPageFailed(
+                state: state.mapElements(transform),
+                previousState: previousState.mapElements(transform)
+            )
+
+        case let .PreviousPageFailed(state, previousState):
+            return .PreviousPageFailed(
+                state: state.mapElements(transform),
+                previousState: previousState.mapElements(transform)
+            )
+        }
+    }
+
+    /**
+     Transforms the loader event's error type.
 
      - parameter transform: An error transformation function.
      */

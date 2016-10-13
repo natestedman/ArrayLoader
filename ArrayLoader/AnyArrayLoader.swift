@@ -52,12 +52,31 @@ public struct AnyArrayLoader<Element, Error: ErrorType>
 extension AnyArrayLoader
 {
     // MARK: - Initialization
+
+    /**
+     Initializes an `AnyArrayLoader` with an `ArrayLoader` and a transform function to map the array loader's elements.
+
+     - parameter arrayLoader:      The array loader to wrap.
+     - parameter transformElement: The element transform function.
+     */
+    public init<Wrapped: ArrayLoader where Wrapped.Error == Error>
+        (arrayLoader: Wrapped, transformElement: Wrapped.Element -> Element)
+    {
+        self.init(
+            state: arrayLoader.state.map({ state in
+                state.mapElements(transformElement)
+            }),
+            events: arrayLoader.events.map({ $0.mapElements(transformElement) }),
+            loadNextPage: arrayLoader.loadNextPage,
+            loadPreviousPage: arrayLoader.loadPreviousPage
+        )
+    }
     
     /**
-     Initializes an `AnyArrayLoader` with an `ArrayLoader` and a transform function to map the array loader's state.
+     Initializes an `AnyArrayLoader` with an `ArrayLoader` and a transform function to map the array loader's errors.
      
-     - parameter arrayLoader: The array loader to wrap.
-     - parameter transform:   The state transform function.
+     - parameter arrayLoader:     The array loader to wrap.
+     - parameter transformErrors: The error transform function.
      */
     public init<Wrapped: ArrayLoader where Wrapped.Element == Element>
         (arrayLoader: Wrapped, transformErrors: Wrapped.Error -> Error)
