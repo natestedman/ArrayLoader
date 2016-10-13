@@ -171,10 +171,22 @@ extension InfoStrategyArrayLoader: ArrayLoader
 
 extension InfoStrategyArrayLoader
 {
-    // MARK: - Load Request Completion
-    private typealias PageResult = Result<InfoLoadResult<Element, Info>, Error>
+    // MARK: - Function Types
     private typealias PageStateForSuccess = (current: PageState<Error>, mutation: Mutation<Bool>) -> PageState<Error>
     private typealias PageStateForFailure = (current: PageState<Error>, error: Error) -> PageState<Error>
+
+    /// A function type to transform an `InfoLoaderState` value.
+    private typealias InfoLoaderStateTransform =
+        InfoLoaderState<Element, Info, Error> -> InfoLoaderState<Element, Info, Error>
+
+    /// A function type for creating a loader event from a current loader state, a previous loader state, and an array
+    /// of newly-loaded elements.
+    private typealias LoaderEventForStatesAndElements =
+        (LoaderState<Element, Error>, LoaderState<Element, Error>, [Element]) -> LoaderEvent<Element, Error>
+
+    /// A function type for creating a loader event from a current loader state and a previous loader state.
+    private typealias LoaderEventForStates =
+        (LoaderState<Element, Error>, LoaderState<Element, Error>) -> LoaderEvent<Element, Error>
 
     static func currentIfNoMutation(current current: PageState<Error>, mutation: Mutation<Bool>) -> PageState<Error>
     {
@@ -186,13 +198,19 @@ extension InfoStrategyArrayLoader
         return mutation.value.map({ hasMore in hasMore ? .HasMore : .Completed }) ?? .HasMore
     }
 
+    // MARK: - Load Request Completion
+    private typealias PageResult = Result<InfoLoadResult<Element, Info>, Error>
+
+    /// Completes loading of the next page.
+    ///
+    /// - parameter result: The result from loading the next page.
     private func nextPageCompletion(result result: PageResult)
     {
         pageCompletion(
             result: result,
             combine: { current, new in current + new } ,
-            pageEventForLoaded: LoaderEvent<Element, Error>.NextPageLoaded,
-            pageEventForFailed: LoaderEvent.NextPageFailed,
+            loaderEventForLoaded: LoaderEvent<Element, Error>.NextPageLoaded,
+            loaderEventForFailed: LoaderEvent.NextPageFailed,
             nextPageStateForSuccess: InfoStrategyArrayLoader.hasMoreIfNoMutation,
             previousPageStateForSuccess: InfoStrategyArrayLoader.currentIfNoMutation,
             nextPageStateForFailure: { _, error in .Failed(error) },
@@ -200,13 +218,17 @@ extension InfoStrategyArrayLoader
         )
     }
 
+
+    /// Completes loading of the previous page.
+    ///
+    /// - parameter result: The result from loading the previous page.
     private func previousPageCompletion(result result: PageResult)
     {
         pageCompletion(
             result: result,
             combine: { current, new in new + current },
-            pageEventForLoaded: LoaderEvent<Element, Error>.PreviousPageLoaded,
-            pageEventForFailed: LoaderEvent.PreviousPageFailed,
+            loaderEventForLoaded: LoaderEvent<Element, Error>.PreviousPageLoaded,
+            loaderEventForFailed: LoaderEvent.PreviousPageFailed,
             nextPageStateForSuccess: InfoStrategyArrayLoader.currentIfNoMutation,
             previousPageStateForSuccess: InfoStrategyArrayLoader.hasMoreIfNoMutation,
             nextPageStateForFailure: { current, _ in current },
@@ -214,10 +236,39 @@ extension InfoStrategyArrayLoader
         )
     }
 
+    /// Modifies the info loader state for a page completion event.
+    ///
+    /// - parameter transform: The info loader state transform.
+    /// - parameter pageEvent: A function to create a page event, given the current and previous loader states.
+    private func modifyStateForPageCompletion(transform transform: InfoLoaderStateTransform,
+                                              pageEvent: LoaderEventForStates)
+    {
+        var newState: InfoLoaderState<Element, Info, Error>?
+
+        let previousState = infoState.modify({ current in
+            newState = transform(current)
+            return newState!
+        })
+
+        eventsPipe.1.sendNext(pageEvent(newState!.loaderState, previousState.loaderState))
+    }
+
+    /// Completes the loading of a page.
+    ///
+    /// - parameter result:                      The result of loading the page.
+    /// - parameter combine:                     A function to combine the current and newly loaded elements.
+    /// - parameter loaderEventForLoaded:          A function to create a page event for a successfully loaded page.
+    /// - parameter loaderEventForFailed:          A function to create a page event for a failed page load.
+    /// - parameter nextPageStateForSuccess:     A function to determine the next page state for a successfully loaded
+    ///                                          page.
+    /// - parameter previousPageStateForSuccess: A function to determine the previous page state for a successfully
+    ///                                          loaded page.
+    /// - parameter nextPageStateForFailure:     A function to determine the next page state for a failed page load.
+    /// - parameter previousPageStateForFailure: A function to determine the previous page state for a failed page load.
     private func pageCompletion(result result: PageResult,
                                 combine: (current: [Element], new: [Element]) -> [Element],
-                                pageEventForLoaded: (LoaderState<Element, Error>, LoaderState<Element, Error>, [Element]) -> LoaderEvent<Element, Error>,
-                                pageEventForFailed: (LoaderState<Element, Error>, LoaderState<Element, Error>) -> LoaderEvent<Element, Error>,
+                                loaderEventForLoaded: LoaderEventForStatesAndElements,
+                                loaderEventForFailed: LoaderEventForStates,
                                 nextPageStateForSuccess: PageStateForSuccess,
                                 previousPageStateForSuccess: PageStateForSuccess,
                                 nextPageStateForFailure: PageStateForFailure,
@@ -226,50 +277,48 @@ extension InfoStrategyArrayLoader
         switch result
         {
         case let .Success(loadResult):
-            infoState.modify({ current in
-                let newState = InfoLoaderState(
-                    loaderState: LoaderState(
-                        elements: combine(current: current.loaderState.elements, new: loadResult.elements),
-                        nextPageState: nextPageStateForSuccess(
-                            current: current.loaderState.nextPageState,
-                            mutation: loadResult.nextPageHasMore
+            modifyStateForPageCompletion(
+                transform: { current in
+                    InfoLoaderState(
+                        loaderState: LoaderState(
+                            elements: combine(current: current.loaderState.elements, new: loadResult.elements),
+                            nextPageState: nextPageStateForSuccess(
+                                current: current.loaderState.nextPageState,
+                                mutation: loadResult.nextPageHasMore
+                            ),
+                            previousPageState: previousPageStateForSuccess(
+                                current: current.loaderState.previousPageState,
+                                mutation: loadResult.previousPageHasMore
+                            )
                         ),
-                        previousPageState: previousPageStateForSuccess(
-                            current: current.loaderState.previousPageState,
-                            mutation: loadResult.previousPageHasMore
-                        )
-                    ),
-                    nextInfo: loadResult.nextPageInfo.value ?? current.nextInfo,
-                    previousInfo: loadResult.previousPageInfo.value ?? current.previousInfo
-                )
-
-                eventsPipe.1.sendNext(pageEventForLoaded(newState.loaderState, current.loaderState, loadResult.elements))
-
-                return newState
-            })
+                        nextInfo: loadResult.nextPageInfo.value ?? current.nextInfo,
+                        previousInfo: loadResult.previousPageInfo.value ?? current.previousInfo
+                    )
+                },
+                pageEvent: { current, previous in loaderEventForLoaded(current, previous, loadResult.elements) }
+            )
 
         case let .Failure(error):
-            infoState.modify({ current in
-                let newState = InfoLoaderState(
-                    loaderState: LoaderState(
-                        elements: current.loaderState.elements,
-                        nextPageState: nextPageStateForFailure(
-                            current: current.loaderState.nextPageState,
-                            error: error
+            modifyStateForPageCompletion(
+                transform: { current in
+                    InfoLoaderState(
+                        loaderState: LoaderState(
+                            elements: current.loaderState.elements,
+                            nextPageState: nextPageStateForFailure(
+                                current: current.loaderState.nextPageState,
+                                error: error
+                            ),
+                            previousPageState: previousPageStateForFailure(
+                                current: current.loaderState.previousPageState,
+                                error: error
+                            )
                         ),
-                        previousPageState: previousPageStateForFailure(
-                            current: current.loaderState.previousPageState,
-                            error: error
-                        )
-                    ),
-                    nextInfo: current.nextInfo,
-                    previousInfo: current.previousInfo
-                )
-
-                eventsPipe.1.sendNext(pageEventForFailed(newState.loaderState, current.loaderState))
-
-                return newState
-            })
+                        nextInfo: current.nextInfo,
+                        previousInfo: current.previousInfo
+                    )
+                },
+                pageEvent: loaderEventForFailed
+            )
         }
     }
 }
