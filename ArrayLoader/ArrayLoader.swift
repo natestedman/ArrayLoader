@@ -76,6 +76,37 @@ extension ArrayLoader
     }
 }
 
+extension ArrayLoader
+{
+    // MARK: - Transformations
+
+    /// Transforms the array loader's elements.
+    ///
+    /// - parameter transform: An element function.
+    @warn_unused_result
+    public func mapElements<Other>(transform: Element -> Other) -> AnyArrayLoader<Other, Error>
+    {
+        return AnyArrayLoader(
+            arrayLoader: self,
+            transformState: { $0.mapElements(transform) },
+            transformEvents: { $0.mapElements(transform) }
+        )
+    }
+
+    /// Transforms the array loader's errors.
+    ///
+    /// - parameter transform: An error transform function.
+    @warn_unused_result
+    public func mapErrors<Other: ErrorType>(transform: Error -> Other) -> AnyArrayLoader<Element, Other>
+    {
+        return AnyArrayLoader(
+            arrayLoader: self,
+            transformState: { $0.mapErrors(transform) },
+            transformEvents: { $0.mapErrors(transform) }
+        )
+    }
+}
+
 extension ArrayLoader where Error == NoError
 {
     // MARK: - Composition Support
@@ -85,8 +116,9 @@ extension ArrayLoader where Error == NoError
 
     - parameter error: The error type to promote to.
     */
+    @warn_unused_result
     public func promoteErrors<Promoted: ErrorType>(error: Promoted.Type) -> AnyArrayLoader<Element, Promoted>
     {
-        return AnyArrayLoader(arrayLoader: self, transformErrors: { $0 as! Promoted })
+        return mapErrors({ $0 as! Promoted })
     }
 }

@@ -53,35 +53,15 @@ extension AnyArrayLoader
 {
     // MARK: - Initialization
 
-    /**
-     Initializes an `AnyArrayLoader` with an `ArrayLoader` and a transform function to map the array loader's elements.
-
-     - parameter arrayLoader:      The array loader to wrap.
-     - parameter transformElement: The element transform function.
-     */
-    public init<Wrapped: ArrayLoader where Wrapped.Error == Error>
-        (arrayLoader: Wrapped, transformElement: Wrapped.Element -> Element)
+    /// An internal initializer, used for `ArrayLoader` transformation extension functions.
+    internal init<Wrapped: ArrayLoader>
+        (arrayLoader: Wrapped,
+         transformState: LoaderState<Wrapped.Element, Wrapped.Error> -> LoaderState<Element, Error>,
+         transformEvents: LoaderEvent<Wrapped.Element, Wrapped.Error> -> LoaderEvent<Element, Error>)
     {
         self.init(
-            state: arrayLoader.state.map({ $0.mapElements(transformElement) }),
-            events: arrayLoader.events.map({ $0.mapElements(transformElement) }),
-            loadNextPage: arrayLoader.loadNextPage,
-            loadPreviousPage: arrayLoader.loadPreviousPage
-        )
-    }
-    
-    /**
-     Initializes an `AnyArrayLoader` with an `ArrayLoader` and a transform function to map the array loader's errors.
-     
-     - parameter arrayLoader:     The array loader to wrap.
-     - parameter transformErrors: The error transform function.
-     */
-    public init<Wrapped: ArrayLoader where Wrapped.Element == Element>
-        (arrayLoader: Wrapped, transformErrors: Wrapped.Error -> Error)
-    {
-        self.init(
-            state: arrayLoader.state.map({ $0.mapErrors(transformErrors) }),
-            events: arrayLoader.events.map({ $0.mapErrors(transformErrors) }),
+            state: arrayLoader.state.map(transformState),
+            events: arrayLoader.events.map(transformEvents),
             loadNextPage: arrayLoader.loadNextPage,
             loadPreviousPage: arrayLoader.loadPreviousPage
         )
