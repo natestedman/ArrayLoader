@@ -80,8 +80,8 @@ extension AnyArrayLoader
         (arrayLoader: Wrapped, transformErrors: Wrapped.Error -> Error)
     {
         self.init(
-            state: arrayLoader.state.map({ $0.mapError(transformErrors) }),
-            events: arrayLoader.events.map({ $0.mapError(transformErrors) }),
+            state: arrayLoader.state.map({ $0.mapErrors(transformErrors) }),
+            events: arrayLoader.events.map({ $0.mapErrors(transformErrors) }),
             loadNextPage: arrayLoader.loadNextPage,
             loadPreviousPage: arrayLoader.loadPreviousPage
         )

@@ -255,49 +255,49 @@ extension LoaderEvent
 
      - parameter transform: An error transformation function.
      */
-    public func mapError<Other: ErrorType>(transform: Error -> Other) -> LoaderEvent<Element, Other>
+    public func mapErrors<Other: ErrorType>(transform: Error -> Other) -> LoaderEvent<Element, Other>
     {
         switch self
         {
         case let .Current(state):
-            return .Current(state: state.mapError(transform))
+            return .Current(state: state.mapErrors(transform))
 
         case let .NextPageLoading(state, previousState):
             return .NextPageLoading(
-                state: state.mapError(transform),
-                previousState: previousState.mapError(transform)
+                state: state.mapErrors(transform),
+                previousState: previousState.mapErrors(transform)
             )
 
         case let .PreviousPageLoading(state, previousState):
             return .PreviousPageLoading(
-                state: state.mapError(transform),
-                previousState: previousState.mapError(transform)
+                state: state.mapErrors(transform),
+                previousState: previousState.mapErrors(transform)
             )
 
         case let .NextPageLoaded(state, previousState, newElements):
             return .NextPageLoaded(
-                state: state.mapError(transform),
-                previousState: previousState.mapError(transform),
+                state: state.mapErrors(transform),
+                previousState: previousState.mapErrors(transform),
                 newElements: newElements
             )
 
         case let .PreviousPageLoaded(state, previousState, newElements):
             return .PreviousPageLoaded(
-                state: state.mapError(transform),
-                previousState: previousState.mapError(transform),
+                state: state.mapErrors(transform),
+                previousState: previousState.mapErrors(transform),
                 newElements: newElements
             )
 
         case let .NextPageFailed(state, previousState):
             return .NextPageFailed(
-                state: state.mapError(transform),
-                previousState: previousState.mapError(transform)
+                state: state.mapErrors(transform),
+                previousState: previousState.mapErrors(transform)
             )
 
         case let .PreviousPageFailed(state, previousState):
             return .PreviousPageFailed(
-                state: state.mapError(transform),
-                previousState: previousState.mapError(transform)
+                state: state.mapErrors(transform),
+                previousState: previousState.mapErrors(transform)
             )
         }
     }

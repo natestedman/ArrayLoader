@@ -51,7 +51,7 @@ extension LoaderState
 
     - returns: A loader state with the same elements, and transformed page states.
     */
-    public func mapError<Other: ErrorType>(transform: Error -> Other) -> LoaderState<Element, Other>
+    public func mapErrors<Other: ErrorType>(transform: Error -> Other) -> LoaderState<Element, Other>
     {
         return LoaderState<Element, Other>(
             elements: elements,
