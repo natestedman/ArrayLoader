@@ -63,9 +63,7 @@ extension AnyArrayLoader
         (arrayLoader: Wrapped, transformElement: Wrapped.Element -> Element)
     {
         self.init(
-            state: arrayLoader.state.map({ state in
-                state.mapElements(transformElement)
-            }),
+            state: arrayLoader.state.map({ $0.mapElements(transformElement) }),
             events: arrayLoader.events.map({ $0.mapElements(transformElement) }),
             loadNextPage: arrayLoader.loadNextPage,
             loadPreviousPage: arrayLoader.loadPreviousPage
@@ -82,13 +80,7 @@ extension AnyArrayLoader
         (arrayLoader: Wrapped, transformErrors: Wrapped.Error -> Error)
     {
         self.init(
-            state: arrayLoader.state.map({ state in
-                return LoaderState(
-                    elements: state.elements,
-                    nextPageState: state.nextPageState.mapError(transformErrors),
-                    previousPageState: state.previousPageState.mapError(transformErrors)
-                )
-            }),
+            state: arrayLoader.state.map({ $0.mapError(transformErrors) }),
             events: arrayLoader.events.map({ $0.mapError(transformErrors) }),
             loadNextPage: arrayLoader.loadNextPage,
             loadPreviousPage: arrayLoader.loadPreviousPage
