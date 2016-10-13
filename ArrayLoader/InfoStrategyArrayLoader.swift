@@ -31,12 +31,6 @@ public final class InfoStrategyArrayLoader<Element, Info, Error: ErrorType>
     - parameter nextInfo:        The initial next page info value.
     - parameter previousInfo:    The initial previous page info value.
     - parameter load:            The load strategy to use.
-    - parameter combineNext:     The combine strategy to use for next pages. The first parameter sent to this function
-                                 is the current content, and the second parameter is the newly loaded content. If this
-                                 parameter is omitted, `+` will be used.
-    - parameter combinePrevious: The combine strategy to use for previous pages. The first parameter sent to this
-                                 function is the new loadeded content, and the second parameter is the current content.
-                                 If this parameter is omitted, `+` will be used.
     */
     public init(nextInfo: Info, previousInfo: Info, load: LoadStrategy)
     {
