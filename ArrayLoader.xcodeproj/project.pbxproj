@@ -12,11 +12,8 @@
 		430FE56B1D95A1D300C16DB9 /* LoaderEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430FE56A1D95A1D300C16DB9 /* LoaderEvent.swift */; };
 		4346EFAD1BD9799F0066CD46 /* ArrayLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 4346EFAC1BD9799F0066CD46 /* ArrayLoader.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4346EFB41BD9799F0066CD46 /* ArrayLoader.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4346EFA91BD9799F0066CD46 /* ArrayLoader.framework */; };
-		4346EFC91BD97B2E0066CD46 /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4346EFC41BD97B1C0066CD46 /* ReactiveCocoa.framework */; };
 		4346EFCA1BD97B2E0066CD46 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4346EFC61BD97B1C0066CD46 /* Result.framework */; };
-		4346EFCB1BD97B330066CD46 /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4346EFC41BD97B1C0066CD46 /* ReactiveCocoa.framework */; };
 		4346EFCC1BD97B330066CD46 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4346EFC61BD97B1C0066CD46 /* Result.framework */; };
-		4346EFCE1BD97B3B0066CD46 /* ReactiveCocoa.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4346EFC41BD97B1C0066CD46 /* ReactiveCocoa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4346EFCF1BD97B400066CD46 /* Result.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4346EFC61BD97B1C0066CD46 /* Result.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4346EFD11BD97BC80066CD46 /* ArrayLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4346EFD01BD97BC80066CD46 /* ArrayLoader.swift */; };
 		4346EFD31BD97D210066CD46 /* LoadRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4346EFD21BD97D210066CD46 /* LoadRequest.swift */; };
@@ -30,6 +27,10 @@
 		434E4F9A1C0F49BA00DF9B75 /* LoadRequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434E4F961C0F498300DF9B75 /* LoadRequestTests.swift */; };
 		435B70DE1D9CB14F002C6CB8 /* StrategyArrayLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435B70DD1D9CB14F002C6CB8 /* StrategyArrayLoaderTests.swift */; };
 		435B70DF1D9CB14F002C6CB8 /* StrategyArrayLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 435B70DD1D9CB14F002C6CB8 /* StrategyArrayLoaderTests.swift */; };
+		435DD3371E0EF6B700B7C9D0 /* ReactiveSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 435DD3361E0EF6B700B7C9D0 /* ReactiveSwift.framework */; };
+		435DD3391E0EF6C400B7C9D0 /* ReactiveSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 435DD3381E0EF6C400B7C9D0 /* ReactiveSwift.framework */; };
+		435DD33A1E0EF6D300B7C9D0 /* ReactiveSwift.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 435DD3381E0EF6C400B7C9D0 /* ReactiveSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		435DD33B1E0EF6D900B7C9D0 /* ReactiveSwift.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 435DD3361E0EF6B700B7C9D0 /* ReactiveSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		436D2C251D95C3150053D9A2 /* LoaderEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430FE56A1D95A1D300C16DB9 /* LoaderEvent.swift */; };
 		437FDEEB1BF56C7300A2A73E /* ArrayLoader.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 437FDEE11BF56C7300A2A73E /* ArrayLoader.framework */; };
 		437FDEF81BF56CE900A2A73E /* ArrayLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D93A151BF5143C0089D999 /* ArrayLoaderTests.swift */; };
@@ -47,12 +48,13 @@
 		437FDF081BF56CF200A2A73E /* LoaderState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4346EFD81BD987DF0066CD46 /* LoaderState.swift */; };
 		437FDF091BF56CF200A2A73E /* PageState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4346EFD41BD9807B0066CD46 /* PageState.swift */; };
 		437FDF0A1BF56CF500A2A73E /* ArrayLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 4346EFAC1BD9799F0066CD46 /* ArrayLoader.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		437FDF0E1BF56D4900A2A73E /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 437FDF0C1BF56D4900A2A73E /* ReactiveCocoa.framework */; };
 		437FDF0F1BF56D4900A2A73E /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 437FDF0D1BF56D4900A2A73E /* Result.framework */; };
-		437FDF151BF56D8900A2A73E /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 437FDF0C1BF56D4900A2A73E /* ReactiveCocoa.framework */; };
 		437FDF161BF56D8900A2A73E /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 437FDF0D1BF56D4900A2A73E /* Result.framework */; };
-		437FDF171BF56D8C00A2A73E /* ReactiveCocoa.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 437FDF0C1BF56D4900A2A73E /* ReactiveCocoa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		437FDF181BF56D8C00A2A73E /* Result.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 437FDF0D1BF56D4900A2A73E /* Result.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		43BA39CF1E25E5BD00F022C6 /* MutableProperty+Modify.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BA39CE1E25E5BD00F022C6 /* MutableProperty+Modify.swift */; };
+		43BA39D01E25E5BD00F022C6 /* MutableProperty+Modify.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BA39CE1E25E5BD00F022C6 /* MutableProperty+Modify.swift */; };
+		43BA39D21E25E70800F022C6 /* MutablePropertyModifyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BA39D11E25E70800F022C6 /* MutablePropertyModifyTests.swift */; };
+		43BA39D31E25E70800F022C6 /* MutablePropertyModifyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BA39D11E25E70800F022C6 /* MutablePropertyModifyTests.swift */; };
 		43D93A031BF4E8990089D999 /* AnyArrayLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D93A021BF4E8980089D999 /* AnyArrayLoader.swift */; };
 		43D93A051BF4E8A30089D999 /* InfoStrategyArrayLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D93A041BF4E8A30089D999 /* InfoStrategyArrayLoader.swift */; };
 		43D93A0A1BF5004B0089D999 /* StaticArrayLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D93A091BF5004B0089D999 /* StaticArrayLoader.swift */; };
@@ -87,7 +89,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				4346EFCE1BD97B3B0066CD46 /* ReactiveCocoa.framework in CopyFiles */,
+				435DD33A1E0EF6D300B7C9D0 /* ReactiveSwift.framework in CopyFiles */,
 				4346EFCF1BD97B400066CD46 /* Result.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -98,7 +100,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				437FDF171BF56D8C00A2A73E /* ReactiveCocoa.framework in CopyFiles */,
+				435DD33B1E0EF6D900B7C9D0 /* ReactiveSwift.framework in CopyFiles */,
 				437FDF181BF56D8C00A2A73E /* Result.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -113,7 +115,6 @@
 		4346EFAE1BD9799F0066CD46 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4346EFB31BD9799F0066CD46 /* ArrayLoader-OSXTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ArrayLoader-OSXTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4346EFBA1BD9799F0066CD46 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4346EFC41BD97B1C0066CD46 /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ReactiveCocoa.framework; sourceTree = "<group>"; };
 		4346EFC61BD97B1C0066CD46 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Result.framework; sourceTree = "<group>"; };
 		4346EFD01BD97BC80066CD46 /* ArrayLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayLoader.swift; sourceTree = "<group>"; };
 		4346EFD21BD97D210066CD46 /* LoadRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadRequest.swift; sourceTree = "<group>"; };
@@ -124,10 +125,13 @@
 		434E4F931C0F466F00DF9B75 /* StrategyArrayLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StrategyArrayLoader.swift; sourceTree = "<group>"; };
 		434E4F961C0F498300DF9B75 /* LoadRequestTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoadRequestTests.swift; path = ArrayLoaderTests/LoadRequestTests.swift; sourceTree = "<group>"; };
 		435B70DD1D9CB14F002C6CB8 /* StrategyArrayLoaderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StrategyArrayLoaderTests.swift; sourceTree = "<group>"; };
+		435DD3361E0EF6B700B7C9D0 /* ReactiveSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveSwift.framework; path = Carthage/Build/iOS/ReactiveSwift.framework; sourceTree = "<group>"; };
+		435DD3381E0EF6C400B7C9D0 /* ReactiveSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ReactiveSwift.framework; sourceTree = "<group>"; };
 		437FDEE11BF56C7300A2A73E /* ArrayLoader.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ArrayLoader.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		437FDEEA1BF56C7300A2A73E /* ArrayLoader-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ArrayLoader-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		437FDF0C1BF56D4900A2A73E /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveCocoa.framework; path = Carthage/Build/iOS/ReactiveCocoa.framework; sourceTree = "<group>"; };
 		437FDF0D1BF56D4900A2A73E /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
+		43BA39CE1E25E5BD00F022C6 /* MutableProperty+Modify.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MutableProperty+Modify.swift"; sourceTree = "<group>"; };
+		43BA39D11E25E70800F022C6 /* MutablePropertyModifyTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MutablePropertyModifyTests.swift; sourceTree = "<group>"; };
 		43D93A021BF4E8980089D999 /* AnyArrayLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyArrayLoader.swift; sourceTree = "<group>"; };
 		43D93A041BF4E8A30089D999 /* InfoStrategyArrayLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoStrategyArrayLoader.swift; sourceTree = "<group>"; };
 		43D93A091BF5004B0089D999 /* StaticArrayLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StaticArrayLoader.swift; sourceTree = "<group>"; };
@@ -143,8 +147,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4346EFC91BD97B2E0066CD46 /* ReactiveCocoa.framework in Frameworks */,
 				4346EFCA1BD97B2E0066CD46 /* Result.framework in Frameworks */,
+				435DD3391E0EF6C400B7C9D0 /* ReactiveSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -153,7 +157,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4346EFB41BD9799F0066CD46 /* ArrayLoader.framework in Frameworks */,
-				4346EFCB1BD97B330066CD46 /* ReactiveCocoa.framework in Frameworks */,
 				4346EFCC1BD97B330066CD46 /* Result.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -162,8 +165,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				437FDF0E1BF56D4900A2A73E /* ReactiveCocoa.framework in Frameworks */,
 				437FDF0F1BF56D4900A2A73E /* Result.framework in Frameworks */,
+				435DD3371E0EF6B700B7C9D0 /* ReactiveSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -172,7 +175,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				437FDEEB1BF56C7300A2A73E /* ArrayLoader.framework in Frameworks */,
-				437FDF151BF56D8900A2A73E /* ReactiveCocoa.framework in Frameworks */,
 				437FDF161BF56D8900A2A73E /* Result.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -218,6 +220,7 @@
 				43D93A061BF4E8A90089D999 /* Array Loaders */,
 				43D93A111BF513F00089D999 /* Array Loader Data */,
 				43D93A121BF513F70089D999 /* Strategy Array Loader Data */,
+				43BA39D51E25E71400F022C6 /* Extensions */,
 				4346EFAE1BD9799F0066CD46 /* Info.plist */,
 			);
 			path = ArrayLoader;
@@ -230,6 +233,7 @@
 				43D93A131BF514020089D999 /* Array Loader Data */,
 				435B70D91D9CB084002C6CB8 /* Strategy Array Loaders */,
 				430149441BFAA39100F74B31 /* Strategy Array Loader Data */,
+				43BA39D41E25E70E00F022C6 /* Extensions */,
 				4346EFBA1BD9799F0066CD46 /* Info.plist */,
 			);
 			path = ArrayLoaderTests;
@@ -238,7 +242,7 @@
 		4346EFC31BD97B1C0066CD46 /* Mac */ = {
 			isa = PBXGroup;
 			children = (
-				4346EFC41BD97B1C0066CD46 /* ReactiveCocoa.framework */,
+				435DD3381E0EF6C400B7C9D0 /* ReactiveSwift.framework */,
 				4346EFC61BD97B1C0066CD46 /* Result.framework */,
 			);
 			name = Mac;
@@ -265,10 +269,26 @@
 		437FDF0B1BF56D3400A2A73E /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				437FDF0C1BF56D4900A2A73E /* ReactiveCocoa.framework */,
+				435DD3361E0EF6B700B7C9D0 /* ReactiveSwift.framework */,
 				437FDF0D1BF56D4900A2A73E /* Result.framework */,
 			);
 			name = iOS;
+			sourceTree = "<group>";
+		};
+		43BA39D41E25E70E00F022C6 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				43BA39D11E25E70800F022C6 /* MutablePropertyModifyTests.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
+		43BA39D51E25E71400F022C6 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				43BA39CE1E25E5BD00F022C6 /* MutableProperty+Modify.swift */,
+			);
+			name = Extensions;
 			sourceTree = "<group>";
 		};
 		43D93A061BF4E8A90089D999 /* Array Loaders */ = {
@@ -438,11 +458,11 @@
 					};
 					437FDEE01BF56C7300A2A73E = {
 						CreatedOnToolsVersion = 7.1;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0810;
 					};
 					437FDEE91BF56C7300A2A73E = {
 						CreatedOnToolsVersion = 7.1;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0810;
 					};
 				};
 			};
@@ -507,6 +527,7 @@
 				43D93A031BF4E8990089D999 /* AnyArrayLoader.swift in Sources */,
 				4346EFD91BD987DF0066CD46 /* LoaderState.swift in Sources */,
 				43D93A051BF4E8A30089D999 /* InfoStrategyArrayLoader.swift in Sources */,
+				43BA39CF1E25E5BD00F022C6 /* MutableProperty+Modify.swift in Sources */,
 				43D93A1E1BF54B570089D999 /* Mutation.swift in Sources */,
 				4346EFD51BD9807B0066CD46 /* PageState.swift in Sources */,
 				4346EFD11BD97BC80066CD46 /* ArrayLoader.swift in Sources */,
@@ -525,6 +546,7 @@
 				4346EFD71BD982C00066CD46 /* PageStateTests.swift in Sources */,
 				43D93A0C1BF5015A0089D999 /* AnyArrayLoaderTests.swift in Sources */,
 				43D93A0E1BF506570089D999 /* StaticArrayLoaderTests.swift in Sources */,
+				43BA39D21E25E70800F022C6 /* MutablePropertyModifyTests.swift in Sources */,
 				435B70DE1D9CB14F002C6CB8 /* StrategyArrayLoaderTests.swift in Sources */,
 				430149461BFAA3B800F74B31 /* InfoLoadRequestTests.swift in Sources */,
 				434E4F991C0F49BA00DF9B75 /* LoadRequestTests.swift in Sources */,
@@ -540,6 +562,7 @@
 				437FDEFF1BF56CED00A2A73E /* Mutation.swift in Sources */,
 				437FDF031BF56CF200A2A73E /* AnyArrayLoader.swift in Sources */,
 				436D2C251D95C3150053D9A2 /* LoaderEvent.swift in Sources */,
+				43BA39D01E25E5BD00F022C6 /* MutableProperty+Modify.swift in Sources */,
 				437FDF061BF56CF200A2A73E /* InfoStrategyArrayLoader.swift in Sources */,
 				437FDF081BF56CF200A2A73E /* LoaderState.swift in Sources */,
 				437FDF001BF56CED00A2A73E /* LoadRequest.swift in Sources */,
@@ -558,6 +581,7 @@
 				437FDEFD1BF56CE900A2A73E /* PageStateTests.swift in Sources */,
 				437FDEF81BF56CE900A2A73E /* ArrayLoaderTests.swift in Sources */,
 				437FDEF91BF56CE900A2A73E /* AnyArrayLoaderTests.swift in Sources */,
+				43BA39D31E25E70800F022C6 /* MutablePropertyModifyTests.swift in Sources */,
 				435B70DF1D9CB14F002C6CB8 /* StrategyArrayLoaderTests.swift in Sources */,
 				430149471BFAA3B800F74B31 /* InfoLoadRequestTests.swift in Sources */,
 				434E4F9A1C0F49BA00DF9B75 /* LoadRequestTests.swift in Sources */,
@@ -623,6 +647,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0.1;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -663,6 +688,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
+				SWIFT_VERSION = 3.0.1;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -690,7 +716,6 @@
 				PRODUCT_NAME = ArrayLoader;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
 		};
@@ -715,7 +740,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.natestedman.ArrayLoader;
 				PRODUCT_NAME = ArrayLoader;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 2.3;
 			};
 			name = Release;
 		};
@@ -734,7 +758,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.natestedman.ArrayLoaderTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
 		};
@@ -752,7 +775,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.natestedman.ArrayLoaderTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 2.3;
 			};
 			name = Release;
 		};
@@ -777,7 +799,6 @@
 				PRODUCT_NAME = ArrayLoader;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 2.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -803,7 +824,6 @@
 				PRODUCT_NAME = ArrayLoader;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 2.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -824,7 +844,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.natestedman.ArrayLoaderTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
-				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
 		};
@@ -843,7 +862,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.natestedman.ArrayLoaderTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
-				SWIFT_VERSION = 2.3;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

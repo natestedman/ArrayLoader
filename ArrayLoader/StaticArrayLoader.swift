@@ -8,7 +8,7 @@
 // You should have received a copy of the CC0 Public Domain Dedication along with
 // this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 
-import ReactiveCocoa
+import ReactiveSwift
 import Result
 
 /// Wraps a static array in an array loader.
@@ -23,16 +23,16 @@ public struct StaticArrayLoader<Element>
     */
     public init(elements: [Element])
     {
-        state = AnyProperty(
-            initialValue: LoaderState(elements: elements, nextPageState: .Completed, previousPageState: .Completed),
-            producer: SignalProducer.empty
+        state = Property(
+            initial: LoaderState(elements: elements, nextPageState: .completed, previousPageState: .completed),
+            then: SignalProducer.empty
         )
     }
     
     // MARK: - State
     
     /// The current state of the array loader.
-    public let state: AnyProperty<LoaderState<Element, Error>>
+    public let state: Property<LoaderState<Element, Error>>
 }
 
 extension StaticArrayLoader
@@ -68,6 +68,6 @@ extension StaticArrayLoader: ArrayLoader
     /// A static array loader's events will yield a single event: `.Initial`, then complete.
     public var events: SignalProducer<LoaderEvent<Element, Error>, NoError>
     {
-        return SignalProducer(value: .Current(state: state.value))
+        return SignalProducer(value: .current(state: state.value))
     }
 }

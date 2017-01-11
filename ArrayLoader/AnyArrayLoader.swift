@@ -8,19 +8,19 @@
 // You should have received a copy of the CC0 Public Domain Dedication along with
 // this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 
-import ReactiveCocoa
+import ReactiveSwift
 import enum Result.NoError
 
 /// Wraps any array loader of the given element and error types in a single type.
 ///
 /// `loadNextPage()` and `loadPreviousPage()` can be called on either the wrapped array loader or on this class. The
 /// results of both will be the same - the implementations for this class merely call the wrapped versions.
-public struct AnyArrayLoader<Element, Error: ErrorType>
+public struct AnyArrayLoader<Element, Error: Swift.Error>
 {
     // MARK: - Loader State
     
     /// The current state of the array loader.
-    public let state: AnyProperty<LoaderState<Element, Error>>
+    public let state: Property<LoaderState<Element, Error>>
 
     // MARK: - Events
 
@@ -30,17 +30,17 @@ public struct AnyArrayLoader<Element, Error: ErrorType>
     // MARK: - Load Functions
     
     /// Avoids generic restrictions by not directly referencing the wrapped array loader.
-    private let _loadNextPage: () -> ()
+    fileprivate let _loadNextPage: () -> ()
     
     /// Avoids generic restrictions by not directly referencing the wrapped array loader.
-    private let _loadPreviousPage: () -> ()
+    fileprivate let _loadPreviousPage: () -> ()
     
     // MARK: - Initialization
-    private init(
-        state: AnyProperty<LoaderState<Element, Error>>,
+    fileprivate init(
+        state: Property<LoaderState<Element, Error>>,
         events: SignalProducer<LoaderEvent<Element, Error>, NoError>,
-        loadNextPage: () -> (),
-        loadPreviousPage: () -> ())
+        loadNextPage: @escaping () -> (),
+        loadPreviousPage: @escaping () -> ())
     {
         self.state = state
         self.events = events
@@ -56,8 +56,8 @@ extension AnyArrayLoader
     /// An internal initializer, used for `ArrayLoader` transformation extension functions.
     internal init<Wrapped: ArrayLoader>
         (arrayLoader: Wrapped,
-         transformState: LoaderState<Wrapped.Element, Wrapped.Error> -> LoaderState<Element, Error>,
-         transformEvents: LoaderEvent<Wrapped.Element, Wrapped.Error> -> LoaderEvent<Element, Error>)
+         transformState: @escaping (LoaderState<Wrapped.Element, Wrapped.Error>) -> LoaderState<Element, Error>,
+         transformEvents: @escaping (LoaderEvent<Wrapped.Element, Wrapped.Error>) -> LoaderEvent<Element, Error>)
     {
         self.init(
             state: arrayLoader.state.map(transformState),
@@ -72,7 +72,7 @@ extension AnyArrayLoader
      
      - parameter arrayLoader: The array loader to wrap.
      */
-    public init<Wrapped: ArrayLoader where Wrapped.Element == Element, Wrapped.Error == Error>(_ arrayLoader: Wrapped)
+    public init<Wrapped: ArrayLoader>(_ arrayLoader: Wrapped) where Wrapped.Element == Element, Wrapped.Error == Error
     {
         self.init(
             state: arrayLoader.state,

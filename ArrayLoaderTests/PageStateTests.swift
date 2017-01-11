@@ -15,32 +15,32 @@ class PageStateTests: XCTestCase
 {
     func testHasMore()
     {
-        XCTAssertTrue(PageState<NSError>.HasMore.isHasMore)
-        XCTAssertFalse(PageState<NSError>.HasMore.isCompleted)
-        XCTAssertFalse(PageState<NSError>.HasMore.isLoading)
-        XCTAssertNil(PageState<NSError>.HasMore.error)
+        XCTAssertTrue(PageState<NSError>.hasMore.isHasMore)
+        XCTAssertFalse(PageState<NSError>.hasMore.isCompleted)
+        XCTAssertFalse(PageState<NSError>.hasMore.isLoading)
+        XCTAssertNil(PageState<NSError>.hasMore.error)
     }
     
     func testCompleted()
     {
-        XCTAssertTrue(PageState<NSError>.Completed.isCompleted)
-        XCTAssertFalse(PageState<NSError>.Completed.isHasMore)
-        XCTAssertFalse(PageState<NSError>.Completed.isLoading)
-        XCTAssertNil(PageState<NSError>.Completed.error)
+        XCTAssertTrue(PageState<NSError>.completed.isCompleted)
+        XCTAssertFalse(PageState<NSError>.completed.isHasMore)
+        XCTAssertFalse(PageState<NSError>.completed.isLoading)
+        XCTAssertNil(PageState<NSError>.completed.error)
     }
     
     func testLoading()
     {
-        XCTAssertTrue(PageState<NSError>.Loading.isLoading)
-        XCTAssertFalse(PageState<NSError>.Loading.isCompleted)
-        XCTAssertFalse(PageState<NSError>.Loading.isHasMore)
-        XCTAssertNil(PageState<NSError>.Loading.error)
+        XCTAssertTrue(PageState<NSError>.loading.isLoading)
+        XCTAssertFalse(PageState<NSError>.loading.isCompleted)
+        XCTAssertFalse(PageState<NSError>.loading.isHasMore)
+        XCTAssertNil(PageState<NSError>.loading.error)
     }
     
     func testFailure()
     {
         let testError = NSError(domain: "test", code: 0, userInfo: nil)
-        let state = PageState.Failed(testError)
+        let state = PageState.failed(testError)
         
         XCTAssertFalse(state.isLoading)
         XCTAssertFalse(state.isCompleted)
@@ -51,15 +51,15 @@ class PageStateTests: XCTestCase
     
     func testEquatable()
     {
-        XCTAssertEqual(PageState<NSError>.Loading, PageState.Loading)
-        XCTAssertEqual(PageState<NSError>.Completed, PageState.Completed)
-        XCTAssertEqual(PageState<NSError>.HasMore, PageState.HasMore)
+        XCTAssertEqual(PageState<NSError>.loading, PageState.loading)
+        XCTAssertEqual(PageState<NSError>.completed, PageState.completed)
+        XCTAssertEqual(PageState<NSError>.hasMore, PageState.hasMore)
         
         let testError = NSError(domain: "test", code: 0, userInfo: nil)
-        let state = PageState.Failed(testError)
+        let state = PageState.failed(testError)
         XCTAssertEqual(state, state)
         
         let otherError = NSError(domain: "test", code: 1, userInfo: nil)
-        XCTAssertNotEqual(state, PageState.Failed(otherError))
+        XCTAssertNotEqual(state, PageState.failed(otherError))
     }
 }

@@ -9,7 +9,7 @@
 // this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 
 @testable import ArrayLoader
-import ReactiveCocoa
+import ReactiveSwift
 import XCTest
 
 class StaticArrayLoaderTests: XCTestCase
@@ -17,9 +17,9 @@ class StaticArrayLoaderTests: XCTestCase
     func testEmpty()
     {
         let loader = StaticArrayLoader<Int>(elements: [])
-        
-        XCTAssertEqual(loader.nextPageState, PageState.Completed)
-        XCTAssertEqual(loader.previousPageState, PageState.Completed)
+
+        XCTAssertEqual(loader.nextPageState, PageState.completed)
+        XCTAssertEqual(loader.previousPageState, PageState.completed)
         XCTAssertEqual(loader.elements, [])
     }
     

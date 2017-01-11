@@ -15,24 +15,24 @@ class LoadRequestTests: XCTestCase
 {
     func testNext()
     {
-        let request = LoadRequest<Int>.Next(current: [])
+        let request = LoadRequest<Int>.next(current: [])
         XCTAssertTrue(request.isNext)
         XCTAssertFalse(request.isPrevious)
     }
     
     func testPrevious()
     {
-        let request = LoadRequest<Int>.Previous(current: [])
+        let request = LoadRequest<Int>.previous(current: [])
         XCTAssertTrue(request.isPrevious)
         XCTAssertFalse(request.isNext)
     }
     
     func testCurrent()
     {
-        let previous = LoadRequest<Int>.Previous(current: [0, 1, 2, 3])
+        let previous = LoadRequest<Int>.previous(current: [0, 1, 2, 3])
         XCTAssertEqual(previous.current, [0, 1, 2, 3])
         
-        let next = LoadRequest<Int>.Previous(current: [0, 1, 2, 3])
+        let next = LoadRequest<Int>.previous(current: [0, 1, 2, 3])
         XCTAssertEqual(next.current, [0, 1, 2, 3])
     }
 }

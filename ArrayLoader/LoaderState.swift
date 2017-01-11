@@ -9,7 +9,7 @@
 // this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 
 /// Encapsulates the state of an `ArrayLoader` in a single value type.
-public struct LoaderState<Element, Error: ErrorType>
+public struct LoaderState<Element, Error: Swift.Error>
 {
     // MARK: - Elements
     /// The elements that have been loaded.
@@ -35,7 +35,7 @@ extension LoaderState
 
      - returns: A loader state with the transformed elements, and the same page states.
      */
-    public func mapElements<Other>(transform: Element -> Other) -> LoaderState<Other, Error>
+    public func mapElements<Other>(_ transform: (Element) -> Other) -> LoaderState<Other, Error>
     {
         return LoaderState<Other, Error>(
             elements: elements.map(transform),
@@ -51,7 +51,7 @@ extension LoaderState
 
     - returns: A loader state with the same elements, and transformed page states.
     */
-    public func mapErrors<Other: ErrorType>(transform: Error -> Other) -> LoaderState<Element, Other>
+    public func mapErrors<Other: Swift.Error>(_ transform: (Error) -> Other) -> LoaderState<Element, Other>
     {
         return LoaderState<Element, Other>(
             elements: elements,
@@ -71,8 +71,7 @@ Returns `true` if the two `LoaderState` values are equal.
 - parameter lhs: The first loader state.
 - parameter rhs: The second loader state.
 */
-@warn_unused_result
-public func ==<Element: Equatable, Error: ErrorType>(lhs: LoaderState<Element, Error>, rhs: LoaderState<Element, Error>) -> Bool
+public func ==<Element: Equatable, Error: Swift.Error>(lhs: LoaderState<Element, Error>, rhs: LoaderState<Element, Error>) -> Bool
 {
     return lhs.elements == rhs.elements
         && lhs.nextPageState == rhs.nextPageState

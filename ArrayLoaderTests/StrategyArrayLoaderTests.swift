@@ -9,7 +9,7 @@
 // this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 
 @testable import ArrayLoader
-import ReactiveCocoa
+import ReactiveSwift
 import XCTest
 import enum Result.NoError
 
@@ -20,21 +20,21 @@ class StrategyArrayLoaderTests: XCTestCase
         let arrayLoader = StrategyArrayLoader<Int, NoError> { request in
             SignalProducer(value: LoadResult(
                 elements: [request.current.count],
-                nextPageHasMore: request.current.count == 1 ? .Replace(false) : .DoNotReplace,
-                previousPageHasMore: .DoNotReplace
+                nextPageHasMore: request.current.count == 1 ? .replace(false) : .doNotReplace,
+                previousPageHasMore: .doNotReplace
             ))
         }
 
         XCTAssertEqual(arrayLoader.elements, [])
-        XCTAssertEqual(arrayLoader.nextPageState, PageState.HasMore)
+        XCTAssertEqual(arrayLoader.nextPageState, PageState.hasMore)
 
         arrayLoader.loadNextPage()
         XCTAssertEqual(arrayLoader.elements, [0])
-        XCTAssertEqual(arrayLoader.nextPageState, PageState.HasMore)
+        XCTAssertEqual(arrayLoader.nextPageState, PageState.hasMore)
 
         arrayLoader.loadNextPage()
         XCTAssertEqual(arrayLoader.elements, [0, 1])
-        XCTAssertEqual(arrayLoader.nextPageState, PageState.Completed)
+        XCTAssertEqual(arrayLoader.nextPageState, PageState.completed)
     }
 
     func testLoaderEvents()
@@ -43,9 +43,9 @@ class StrategyArrayLoaderTests: XCTestCase
             SignalProducer(value: LoadResult(elements: [request.isNext ? 1 : 0]))
         }
 
-        let events = AnyProperty<[LoaderEvent<Int, NoError>]>(
-            initialValue: [],
-            producer: arrayLoader.events.scan([], { $0 + [$1] })
+        let events = Property<[LoaderEvent<Int, NoError>]>(
+            initial: [],
+            then: arrayLoader.events.scan([], { $0 + [$1] })
         )
 
         XCTAssertEqual(events.value.count, 1)
@@ -75,9 +75,9 @@ class StrategyArrayLoaderTests: XCTestCase
 
         let arrayLoader = StrategyArrayLoader<Int, NSError> { _ in SignalProducer(error: error) }
 
-        let events = AnyProperty<[LoaderEvent<Int, NSError>]>(
-            initialValue: [],
-            producer: arrayLoader.events.scan([], { $0 + [$1] })
+        let events = Property<[LoaderEvent<Int, NSError>]>(
+            initial: [],
+            then: arrayLoader.events.scan([], { $0 + [$1] })
         )
 
         XCTAssertEqual(events.value.count, 1)

@@ -15,21 +15,21 @@ public enum Mutation<Value>
     // MARK: - Cases
     
     /// Replaces the old value with a new value.
-    case Replace(Value)
+    case replace(Value)
     
     /// Does not replace the old value with a new value.
-    case DoNotReplace
+    case doNotReplace
     
     // MARK: - Value
     
-    /// The value of the mutation, if of case `.Replace`. Otherwise, `nil`.
+    /// The value of the mutation, if of case `.replace`. Otherwise, `nil`.
     var value: Value?
     {
         switch self
         {
-        case .Replace(let value):
+        case .replace(let value):
             return value
-        case .DoNotReplace:
+        case .doNotReplace:
             return nil
         }
     }

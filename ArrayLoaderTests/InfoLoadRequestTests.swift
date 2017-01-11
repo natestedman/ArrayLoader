@@ -15,33 +15,33 @@ class InfoLoadRequestTests: XCTestCase
 {
     func testNext()
     {
-        let request = InfoLoadRequest<Int, Int>.Next(current: [], info: 0)
+        let request = InfoLoadRequest<Int, Int>.next(current: [], info: 0)
         XCTAssertTrue(request.isNext)
         XCTAssertFalse(request.isPrevious)
     }
     
     func testPrevious()
     {
-        let request = InfoLoadRequest<Int, Int>.Previous(current: [], info: 0)
+        let request = InfoLoadRequest<Int, Int>.previous(current: [], info: 0)
         XCTAssertTrue(request.isPrevious)
         XCTAssertFalse(request.isNext)
     }
     
     func testCurrent()
     {
-        let previous = InfoLoadRequest<Int, Int>.Previous(current: [0, 1, 2, 3], info: 0)
+        let previous = InfoLoadRequest<Int, Int>.previous(current: [0, 1, 2, 3], info: 0)
         XCTAssertEqual(previous.current, [0, 1, 2, 3])
         
-        let next = InfoLoadRequest<Int, Int>.Previous(current: [0, 1, 2, 3], info: 0)
+        let next = InfoLoadRequest<Int, Int>.previous(current: [0, 1, 2, 3], info: 0)
         XCTAssertEqual(next.current, [0, 1, 2, 3])
     }
     
     func testInfo()
     {
-        let previous = InfoLoadRequest<Int, Int>.Next(current: [], info: 10)
+        let previous = InfoLoadRequest<Int, Int>.next(current: [], info: 10)
         XCTAssertEqual(previous.info, 10)
         
-        let next = InfoLoadRequest<Int, Int>.Next(current: [], info: 10)
+        let next = InfoLoadRequest<Int, Int>.next(current: [], info: 10)
         XCTAssertEqual(next.info, 10)
     }
 }

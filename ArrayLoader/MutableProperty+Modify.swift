@@ -1,5 +1,5 @@
 // ArrayLoader
-// Written in 2015 by Nate Stedman <nate@natestedman.com>
+// Written in 2017 by Nate Stedman <nate@natestedman.com>
 //
 // To the extent possible under law, the author(s) have dedicated all copyright and
 // related and neighboring rights to this software to the public domain worldwide.
@@ -8,17 +8,20 @@
 // You should have received a copy of the CC0 Public Domain Dedication along with
 // this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 
-@testable import ArrayLoader
 import ReactiveSwift
-import XCTest
 
-class AnyArrayLoaderTests: XCTestCase
+extension MutableProperty
 {
-    func testMatchesStatic()
+    @discardableResult
+    func modifyOld(_ transform: (Value) -> Value) -> Value
     {
-        let wrapped = StaticArrayLoader(elements: [0, 1, 2, 3, 4])
-        let any = AnyArrayLoader(wrapped)
+        var old: Value?
 
-        XCTAssertTrue(wrapped.state.value == any.state.value)
+        modify {
+            old = $0
+            $0 = transform($0)
+        }
+
+        return old!
     }
 }

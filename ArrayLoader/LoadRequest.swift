@@ -46,25 +46,25 @@ public enum LoadRequest<Element>: LoadRequestType
      
      - parameter current: The current contents of the array.
      */
-    case Next(current: [Element])
+    case next(current: [Element])
     
     /**
      A load request for the previous page of the array.
      
      - parameter current: The current contents of the array.
      */
-    case Previous(current: [Element])
+    case previous(current: [Element])
     
     // MARK: - Properties
     
-    /// Returns `true` if the load request is `.Next`.
+    /// Returns `true` if the load request is `.next`.
     public var isNext: Bool
     {
         switch self
         {
-        case .Next:
+        case .next:
             return true
-        case .Previous:
+        case .previous:
             return false
         }
     }
@@ -74,9 +74,9 @@ public enum LoadRequest<Element>: LoadRequestType
     {
         switch self
         {
-        case .Next(let elements):
+        case .next(let elements):
             return elements
-        case .Previous(let elements):
+        case .previous(let elements):
             return elements
         }
     }
@@ -93,7 +93,7 @@ public enum InfoLoadRequest<Element, Info>: LoadRequestType
      - parameter current: The current contents of the array.
      - parameter info:    The current info value for the next page.
      */
-    case Next(current: [Element], info: Info)
+    case next(current: [Element], info: Info)
     
     /**
      A load request for the previous page of the array.
@@ -101,7 +101,7 @@ public enum InfoLoadRequest<Element, Info>: LoadRequestType
      - parameter current: The current contents of the array.
      - parameter info:    The current info value for the previous page.
      */
-    case Previous(current: [Element], info: Info)
+    case previous(current: [Element], info: Info)
     
     // MARK: - Properties
     
@@ -110,21 +110,21 @@ public enum InfoLoadRequest<Element, Info>: LoadRequestType
     {
         switch self
         {
-        case .Next(let tuple):
-            return .Next(current: tuple.0)
-        case .Previous(let tuple):
-            return .Previous(current: tuple.0)
+        case .next(let tuple):
+            return .next(current: tuple.0)
+        case .previous(let tuple):
+            return .previous(current: tuple.0)
         }
     }
     
-    /// Returns `true` if the load request is `.Next`.
+    /// Returns `true` if the load request is `.next`.
     public var isNext: Bool
     {
         switch self
         {
-        case .Next:
+        case .next:
             return true
-        case .Previous:
+        case .previous:
             return false
         }
     }
@@ -134,9 +134,9 @@ public enum InfoLoadRequest<Element, Info>: LoadRequestType
     {
         switch self
         {
-        case .Next(let tuple):
+        case .next(let tuple):
             return tuple.0
-        case .Previous(let tuple):
+        case .previous(let tuple):
             return tuple.0
         }
     }
@@ -146,9 +146,9 @@ public enum InfoLoadRequest<Element, Info>: LoadRequestType
     {
         switch self
         {
-        case .Next(let tuple):
+        case .next(let tuple):
             return tuple.1
-        case .Previous(let tuple):
+        case .previous(let tuple):
             return tuple.1
         }
     }

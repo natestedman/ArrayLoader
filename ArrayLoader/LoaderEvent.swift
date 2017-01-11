@@ -8,38 +8,38 @@
 // You should have received a copy of the CC0 Public Domain Dedication along with
 // this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 
-public enum LoaderEvent<Element, Error: ErrorType>
+public enum LoaderEvent<Element, Error: Swift.Error>
 {
     // MARK: - Cases
 
     /// An array loader's `events` producer will send this event when started, with the loader's current state.
-    case Current(state: LoaderState<Element, Error>)
+    case current(state: LoaderState<Element, Error>)
 
     /// The array loader began to load its next page.
-    case NextPageLoading(state: LoaderState<Element, Error>, previousState: LoaderState<Element, Error>)
+    case nextPageLoading(state: LoaderState<Element, Error>, previousState: LoaderState<Element, Error>)
 
     /// The array loader began to load its previous page.
-    case PreviousPageLoading(state: LoaderState<Element, Error>, previousState: LoaderState<Element, Error>)
+    case previousPageLoading(state: LoaderState<Element, Error>, previousState: LoaderState<Element, Error>)
 
     /// This event will be send when the array loader successfully loads the next page.
-    case NextPageLoaded(
+    case nextPageLoaded(
         state: LoaderState<Element, Error>,
         previousState: LoaderState<Element, Error>,
         newElements: [Element]
     )
 
     /// This event will be send when the array loader successfully loads the previous page.
-    case PreviousPageLoaded(
+    case previousPageLoaded(
         state: LoaderState<Element, Error>,
         previousState: LoaderState<Element, Error>,
         newElements: [Element]
     )
 
     /// The array loader failed to load its next page.
-    case NextPageFailed(state: LoaderState<Element, Error>, previousState: LoaderState<Element, Error>)
+    case nextPageFailed(state: LoaderState<Element, Error>, previousState: LoaderState<Element, Error>)
 
     /// The array loader failed to load its previous page.
-    case PreviousPageFailed(state: LoaderState<Element, Error>, previousState: LoaderState<Element, Error>)
+    case previousPageFailed(state: LoaderState<Element, Error>, previousState: LoaderState<Element, Error>)
 }
 
 extension LoaderEvent
@@ -51,79 +51,79 @@ extension LoaderEvent
     {
         switch self
         {
-        case .Current:
+        case .current:
             return true
         default:
             return false
         }
     }
 
-    /// `true` if the event is `.NextPageLoading`.
+    /// `true` if the event is `.nextPageLoading`.
     public var isNextPageLoading: Bool
     {
         switch self
         {
-        case .NextPageLoading:
+        case .nextPageLoading:
             return true
         default:
             return false
         }
     }
 
-    /// `true` if the event is `.PreviousPageLoading`.
+    /// `true` if the event is `.previousPageLoading`.
     public var isPreviousPageLoading: Bool
     {
         switch self
         {
-        case .PreviousPageLoading:
+        case .previousPageLoading:
             return true
         default:
             return false
         }
     }
 
-    /// `true` if the event is `.NextPageLoaded`.
+    /// `true` if the event is `.nextPageLoaded`.
     public var isNextPageLoaded: Bool
     {
         switch self
         {
-        case .NextPageLoaded:
+        case .nextPageLoaded:
             return true
         default:
             return false
         }
     }
 
-    /// `true` if the event is `.PreviousPageLoaded`.
+    /// `true` if the event is `.previousPageLoaded`.
     public var isPreviousPageLoaded: Bool
     {
         switch self
         {
-        case .PreviousPageLoaded:
+        case .previousPageLoaded:
             return true
         default:
             return false
         }
     }
 
-    /// `true` if the event is `.NextPageFailed`.
+    /// `true` if the event is `.nextPageFailed`.
     public var isNextPageFailed: Bool
     {
         switch self
         {
-        case .NextPageFailed:
+        case .nextPageFailed:
             return true
         default:
             return false
         }
     }
 
-    /// `true` if the event is `.PreviousPageFailed`.
+    /// `true` if the event is `.previousPageFailed`.
     public var isPreviousPageFailed: Bool
     {
         switch self
         {
-        case .PreviousPageFailed:
+        case .previousPageFailed:
             return true
         default:
             return false
@@ -140,19 +140,19 @@ extension LoaderEvent
     {
         switch self
         {
-        case let .Current(state):
+        case let .current(state):
             return state
-        case let .NextPageLoading(state, _):
+        case let .nextPageLoading(state, _):
             return state
-        case let .PreviousPageLoading(state, _):
+        case let .previousPageLoading(state, _):
             return state
-        case let .NextPageLoaded(state, _, _):
+        case let .nextPageLoaded(state, _, _):
             return state
-        case let .PreviousPageLoaded(state, _, _):
+        case let .previousPageLoaded(state, _, _):
             return state
-        case let .NextPageFailed(state, _):
+        case let .nextPageFailed(state, _):
             return state
-        case let .PreviousPageFailed(state, _):
+        case let .previousPageFailed(state, _):
             return state
         }
     }
@@ -162,19 +162,19 @@ extension LoaderEvent
     {
         switch self
         {
-        case .Current:
+        case .current:
             return nil
-        case let .NextPageLoading(_, previousState):
+        case let .nextPageLoading(_, previousState):
             return previousState
-        case let .PreviousPageLoading(_, previousState):
+        case let .previousPageLoading(_, previousState):
             return previousState
-        case let .NextPageLoaded(_, previousState, _):
+        case let .nextPageLoaded(_, previousState, _):
             return previousState
-        case let .PreviousPageLoaded(_, previousState, _):
+        case let .previousPageLoaded(_, previousState, _):
             return previousState
-        case let .NextPageFailed(_, previousState):
+        case let .nextPageFailed(_, previousState):
             return previousState
-        case let .PreviousPageFailed(_, previousState):
+        case let .previousPageFailed(_, previousState):
             return previousState
         }
     }
@@ -184,9 +184,9 @@ extension LoaderEvent
     {
         switch self
         {
-        case let .NextPageLoaded(_, _, newElements):
+        case let .nextPageLoaded(_, _, newElements):
             return newElements
-        case let .PreviousPageLoaded(_, _, newElements):
+        case let .previousPageLoaded(_, _, newElements):
             return newElements
         default:
             return nil
@@ -203,47 +203,47 @@ extension LoaderEvent
 
      - parameter transform: An element transformation function.
      */
-    public func mapElements<Other>(transform: Element -> Other) -> LoaderEvent<Other, Error>
+    public func mapElements<Other>(_ transform: (Element) -> Other) -> LoaderEvent<Other, Error>
     {
         switch self
         {
-        case let .Current(state):
-            return .Current(state: state.mapElements(transform))
+        case let .current(state):
+            return .current(state: state.mapElements(transform))
 
-        case let .NextPageLoading(state, previousState):
-            return .NextPageLoading(
+        case let .nextPageLoading(state, previousState):
+            return .nextPageLoading(
                 state: state.mapElements(transform),
                 previousState: previousState.mapElements(transform)
             )
 
-        case let .PreviousPageLoading(state, previousState):
-            return .PreviousPageLoading(
+        case let .previousPageLoading(state, previousState):
+            return .previousPageLoading(
                 state: state.mapElements(transform),
                 previousState: previousState.mapElements(transform)
             )
 
-        case let .NextPageLoaded(state, previousState, newElements):
-            return .NextPageLoaded(
+        case let .nextPageLoaded(state, previousState, newElements):
+            return .nextPageLoaded(
                 state: state.mapElements(transform),
                 previousState: previousState.mapElements(transform),
                 newElements: newElements.map(transform)
             )
 
-        case let .PreviousPageLoaded(state, previousState, newElements):
-            return .PreviousPageLoaded(
+        case let .previousPageLoaded(state, previousState, newElements):
+            return .previousPageLoaded(
                 state: state.mapElements(transform),
                 previousState: previousState.mapElements(transform),
                 newElements: newElements.map(transform)
             )
 
-        case let .NextPageFailed(state, previousState):
-            return .NextPageFailed(
+        case let .nextPageFailed(state, previousState):
+            return .nextPageFailed(
                 state: state.mapElements(transform),
                 previousState: previousState.mapElements(transform)
             )
 
-        case let .PreviousPageFailed(state, previousState):
-            return .PreviousPageFailed(
+        case let .previousPageFailed(state, previousState):
+            return .previousPageFailed(
                 state: state.mapElements(transform),
                 previousState: previousState.mapElements(transform)
             )
@@ -255,47 +255,47 @@ extension LoaderEvent
 
      - parameter transform: An error transformation function.
      */
-    public func mapErrors<Other: ErrorType>(transform: Error -> Other) -> LoaderEvent<Element, Other>
+    public func mapErrors<Other: Swift.Error>(_ transform: (Error) -> Other) -> LoaderEvent<Element, Other>
     {
         switch self
         {
-        case let .Current(state):
-            return .Current(state: state.mapErrors(transform))
+        case let .current(state):
+            return .current(state: state.mapErrors(transform))
 
-        case let .NextPageLoading(state, previousState):
-            return .NextPageLoading(
+        case let .nextPageLoading(state, previousState):
+            return .nextPageLoading(
                 state: state.mapErrors(transform),
                 previousState: previousState.mapErrors(transform)
             )
 
-        case let .PreviousPageLoading(state, previousState):
-            return .PreviousPageLoading(
+        case let .previousPageLoading(state, previousState):
+            return .previousPageLoading(
                 state: state.mapErrors(transform),
                 previousState: previousState.mapErrors(transform)
             )
 
-        case let .NextPageLoaded(state, previousState, newElements):
-            return .NextPageLoaded(
+        case let .nextPageLoaded(state, previousState, newElements):
+            return .nextPageLoaded(
                 state: state.mapErrors(transform),
                 previousState: previousState.mapErrors(transform),
                 newElements: newElements
             )
 
-        case let .PreviousPageLoaded(state, previousState, newElements):
-            return .PreviousPageLoaded(
+        case let .previousPageLoaded(state, previousState, newElements):
+            return .previousPageLoaded(
                 state: state.mapErrors(transform),
                 previousState: previousState.mapErrors(transform),
                 newElements: newElements
             )
 
-        case let .NextPageFailed(state, previousState):
-            return .NextPageFailed(
+        case let .nextPageFailed(state, previousState):
+            return .nextPageFailed(
                 state: state.mapErrors(transform),
                 previousState: previousState.mapErrors(transform)
             )
 
-        case let .PreviousPageFailed(state, previousState):
-            return .PreviousPageFailed(
+        case let .previousPageFailed(state, previousState):
+            return .previousPageFailed(
                 state: state.mapErrors(transform),
                 previousState: previousState.mapErrors(transform)
             )

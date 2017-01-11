@@ -8,7 +8,7 @@
 // You should have received a copy of the CC0 Public Domain Dedication along with
 // this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 
-import ReactiveCocoa
+import ReactiveSwift
 import Result
 
 /// The base protocol for array loader types.
@@ -28,12 +28,12 @@ public protocol ArrayLoader
     associatedtype Element
     
     /// The error type of the array loader.
-    associatedtype Error: ErrorType
+    associatedtype Error: Swift.Error
     
     // MARK: - State
     
     /// The current state of the array loader.
-    var state: AnyProperty<LoaderState<Element, Error>> { get }
+    var state: Property<LoaderState<Element, Error>> { get }
 
     // MARK: - Events
 
@@ -83,8 +83,8 @@ extension ArrayLoader
     /// Transforms the array loader's elements.
     ///
     /// - parameter transform: An element function.
-    @warn_unused_result
-    public func mapElements<Other>(transform: Element -> Other) -> AnyArrayLoader<Other, Error>
+    
+    public func mapElements<Other>(_ transform: @escaping (Element) -> Other) -> AnyArrayLoader<Other, Error>
     {
         return AnyArrayLoader(
             arrayLoader: self,
@@ -96,8 +96,8 @@ extension ArrayLoader
     /// Transforms the array loader's errors.
     ///
     /// - parameter transform: An error transform function.
-    @warn_unused_result
-    public func mapErrors<Other: ErrorType>(transform: Error -> Other) -> AnyArrayLoader<Element, Other>
+    
+    public func mapErrors<Other: Swift.Error>(_ transform: @escaping (Error) -> Other) -> AnyArrayLoader<Element, Other>
     {
         return AnyArrayLoader(
             arrayLoader: self,
@@ -116,8 +116,8 @@ extension ArrayLoader where Error == NoError
 
     - parameter error: The error type to promote to.
     */
-    @warn_unused_result
-    public func promoteErrors<Promoted: ErrorType>(error: Promoted.Type) -> AnyArrayLoader<Element, Promoted>
+    
+    public func promoteErrors<Promoted: Swift.Error>(_ error: Promoted.Type) -> AnyArrayLoader<Element, Promoted>
     {
         return mapErrors({ $0 as! Promoted })
     }

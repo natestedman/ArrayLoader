@@ -49,14 +49,14 @@ public struct LoadResult<Element>: LoadResultType
      
      - parameter elements:            The elements that were loaded.
      - parameter nextPageHasMore:     A mutation value for whether or not the array loader has a next page.
-                                      If this parameter is omitted, the default value is `.DoNotReplace`.
+                                      If this parameter is omitted, the default value is `.doNotReplace`.
      - parameter previousPageHasMore: A mutation value for whether or not the array loader has a previous page.
-                                      If this parameter is omitted, the default value is `.DoNotReplace`.
+                                      If this parameter is omitted, the default value is `.doNotReplace`.
      */
     public init(
         elements: [Element],
-        nextPageHasMore: Mutation<Bool> = .DoNotReplace,
-        previousPageHasMore: Mutation<Bool> = .DoNotReplace)
+        nextPageHasMore: Mutation<Bool> = .doNotReplace,
+        previousPageHasMore: Mutation<Bool> = .doNotReplace)
     {
         self.elements = elements
         self.nextPageHasMore = nextPageHasMore
@@ -94,20 +94,20 @@ public struct InfoLoadResult<Element, Info>: LoadResultType
      
      - parameter elements:            The elements that were loaded.
      - parameter nextPageHasMore:     A mutation value for whether or not the array loader has a next page.
-                                      If this parameter is omitted, the default value is `.DoNotReplace`.
+                                      If this parameter is omitted, the default value is `.doNotReplace`.
      - parameter previousPageHasMore: A mutation value for whether or not the array loader has a previous page.
-                                      If this parameter is omitted, the default value is `.DoNotReplace`.
+                                      If this parameter is omitted, the default value is `.doNotReplace`.
      - parameter nextPageInfo:        A mutation value for the array loader's next page info.
-                                      If this parameter is omitted, the default value is `.DoNotReplace`.
+                                      If this parameter is omitted, the default value is `.doNotReplace`.
      - parameter previousPageInfo:    A mutation value for the array loader's previous page info.
-                                      If this parameter is omitted, the default value is `.DoNotReplace`.
+                                      If this parameter is omitted, the default value is `.doNotReplace`.
      */
     public init(
         elements: [Element],
-        nextPageHasMore: Mutation<Bool> = .DoNotReplace,
-        previousPageHasMore: Mutation<Bool> = .DoNotReplace,
-        nextPageInfo: Mutation<Info> = .DoNotReplace,
-        previousPageInfo: Mutation<Info> = .DoNotReplace)
+        nextPageHasMore: Mutation<Bool> = .doNotReplace,
+        previousPageHasMore: Mutation<Bool> = .doNotReplace,
+        nextPageInfo: Mutation<Info> = .doNotReplace,
+        previousPageInfo: Mutation<Info> = .doNotReplace)
     {
         self.elements = elements
         self.nextPageHasMore = nextPageHasMore

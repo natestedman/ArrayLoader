@@ -1,5 +1,5 @@
 // ArrayLoader
-// Written in 2015 by Nate Stedman <nate@natestedman.com>
+// Written in 2017 by Nate Stedman <nate@natestedman.com>
 //
 // To the extent possible under law, the author(s) have dedicated all copyright and
 // related and neighboring rights to this software to the public domain worldwide.
@@ -10,17 +10,20 @@
 
 @testable import ArrayLoader
 import ReactiveSwift
-import Result
 import XCTest
 
-class ArrayLoaderTests: XCTestCase
+final class MutablePropertyModifyTests: XCTestCase
 {
-    func testValuesMatch()
+    func testPropertyModified()
     {
-        let loader = StaticArrayLoader(elements: [0, 1, 2, 3, 4])
+        let property = MutableProperty(0)
+        property.modifyOld({ $0 + 1 })
+        XCTAssertEqual(property.value, 1)
+    }
 
-        XCTAssertEqual(loader.state.value.elements, loader.elements)
-        XCTAssertEqual(loader.state.value.nextPageState, loader.nextPageState)
-        XCTAssertEqual(loader.state.value.previousPageState, loader.previousPageState)
+    func testOldValueReturned()
+    {
+        let property = MutableProperty(0)
+        XCTAssertEqual(property.modifyOld({ $0 + 1 }), 0)
     }
 }

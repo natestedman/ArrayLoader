@@ -15,55 +15,55 @@ import Foundation
 /// `PageState` implements `Equatable`, but converts all error values to `NSError` in the `Failed` case. Therefore, for
 /// equality to work correctly, it's important to implement `_code` and `_domain` in any `ErrorType` implementations
 /// that will be used.
-public enum PageState<Error: ErrorType>
+public enum PageState<Error: Swift.Error>
 {
     /// The array loader at least one additional page to load.
-    case HasMore
+    case hasMore
     
     /// The array loader is complete, and does not have an additional page to load.
-    case Completed
+    case completed
     
     /// The array loader is loading the page.
-    case Loading
+    case loading
     
     /// The page failed to load.
-    case Failed(Error)
+    case failed(Error)
 }
 
 extension PageState
 {
     // MARK: - Properties
     
-    /// `true` if the page state is `.HasMore`.
+    /// `true` if the page state is `.hasMore`.
     public var isHasMore: Bool
     {
         switch self
         {
-        case .HasMore:
+        case .hasMore:
             return true
         default:
             return false
         }
     }
     
-    /// `true` if the page state is `.Completed`.
+    /// `true` if the page state is `.completed`.
     public var isCompleted: Bool
     {
         switch self
         {
-        case .Completed:
+        case .completed:
             return true
         default:
             return false
         }
     }
     
-    /// `true` if the page state is `.Loading`.
+    /// `true` if the page state is `.loading`.
     public var isLoading: Bool
     {
         switch self
         {
-        case .Loading:
+        case .loading:
             return true
         default:
             return false
@@ -75,7 +75,7 @@ extension PageState
     {
         switch self
         {
-        case .Failed(let error):
+        case .failed(let error):
             return error
         default:
             return nil
@@ -92,21 +92,21 @@ extension PageState
 
     - parameter transform: An error transformation function.
 
-    - returns: If the page state is `.Failed`, a `.Failed` state with a transformed error. Otherwise, the same state,
+    - returns: If the page state is `.failed`, a `.failed` state with a transformed error. Otherwise, the same state,
                with a new associated error type.
     */
-    public func mapError<Other: ErrorType>(transform: Error -> Other) -> PageState<Other>
+    public func mapError<Other: Swift.Error>(_ transform: (Error) -> Other) -> PageState<Other>
     {
         switch self
         {
-        case .HasMore:
-            return .HasMore
-        case .Completed:
-            return .Completed
-        case .Loading:
-            return .Loading
-        case .Failed(let error):
-            return .Failed(transform(error))
+        case .hasMore:
+            return .hasMore
+        case .completed:
+            return .completed
+        case .loading:
+            return .loading
+        case .failed(let error):
+            return .failed(transform(error))
         }
     }
 }
@@ -124,25 +124,22 @@ extension PageState: Equatable {}
  - parameter lhs: The first loader state.
  - parameter rhs: The second loader state.
  */
-@warn_unused_result
+
 public func ==<Error>(lhs: PageState<Error>, rhs: PageState<Error>) -> Bool
 {
     switch (lhs, rhs)
     {
-    case (.HasMore, .HasMore):
+    case (.hasMore, .hasMore):
         return true
         
-    case (.Completed, .Completed):
+    case (.completed, .completed):
         return true
         
-    case (.Loading, .Loading):
+    case (.loading, .loading):
         return true
         
-    case (.Failed(let lhsError), .Failed(let rhsError)):
-        let lhsNSError = lhsError as NSError
-        let rhsNSError = rhsError as NSError
-        
-        return lhsNSError == rhsNSError
+    case (.failed(let lhsError), .failed(let rhsError)):
+        return lhsError as NSError == rhsError as NSError
         
     default:
         return false
@@ -158,16 +155,16 @@ extension PageState: CustomDebugStringConvertible
     {
         switch self
         {
-        case .Completed:
+        case .completed:
             return "Completed"
             
-        case .HasMore:
+        case .hasMore:
             return "Has More"
             
-        case .Loading:
+        case .loading:
             return "Loading"
             
-        case .Failed(let error):
+        case .failed(let error):
             return "Error: \(error)"
         }
     }

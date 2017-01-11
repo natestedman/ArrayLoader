@@ -8,7 +8,7 @@
 // You should have received a copy of the CC0 Public Domain Dedication along with
 // this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 
-import ReactiveCocoa
+import ReactiveSwift
 import enum Result.NoError
 
 /// An array loader that uses strategy functions to retrieve and combine element arrays.
@@ -16,14 +16,14 @@ import enum Result.NoError
 /// `StrategyArrayLoader` load strategies should derive everything necessary to load a page from a `LoadRequest` value,
 /// which is associated with the next or previous page, and contains an array of the current elements. If additional
 /// data is needed to load a page, use `InfoStrategyArrayLoader` instead.
-public final class StrategyArrayLoader<Element, Error: ErrorType>
+public final class StrategyArrayLoader<Element, Error: Swift.Error>
 {
     // MARK: - Strategy Types
     
     /// The function type used to load additional array pages.
     ///
     /// Currently, only a single `next` value is supported. Subsequent values will be discarded.
-    public typealias LoadStrategy = LoadRequest<Element> -> SignalProducer<LoadResult<Element>, Error>
+    public typealias LoadStrategy = (LoadRequest<Element>) -> SignalProducer<LoadResult<Element>, Error>
     
     // MARK: - Initialization
     
@@ -32,7 +32,7 @@ public final class StrategyArrayLoader<Element, Error: ErrorType>
 
     - parameter load:            The load strategy to use.
     */
-    public init(load: LoadStrategy)
+    public init(load: @escaping LoadStrategy)
     {
         self.backing = InfoStrategyArrayLoader(
             nextInfo: (),
@@ -43,8 +43,8 @@ public final class StrategyArrayLoader<Element, Error: ErrorType>
                         elements: result.elements,
                         nextPageHasMore: result.nextPageHasMore,
                         previousPageHasMore: result.previousPageHasMore,
-                        nextPageInfo: .DoNotReplace,
-                        previousPageInfo: .DoNotReplace
+                        nextPageInfo: .doNotReplace,
+                        previousPageInfo: .doNotReplace
                     )
                 })
             }
@@ -54,7 +54,7 @@ public final class StrategyArrayLoader<Element, Error: ErrorType>
     // MARK: - Backing
     
     /// The backing info strategy array loader.
-    private let backing: InfoStrategyArrayLoader<Element, Void, Error>
+    fileprivate let backing: InfoStrategyArrayLoader<Element, Void, Error>
 }
 
 extension StrategyArrayLoader: ArrayLoader
@@ -62,7 +62,7 @@ extension StrategyArrayLoader: ArrayLoader
     // MARK: - State
     
     /// The current state of the array loader.
-    public var state: AnyProperty<LoaderState<Element, Error>>
+    public var state: Property<LoaderState<Element, Error>>
     {
         return backing.state
     }
@@ -81,7 +81,7 @@ extension StrategyArrayLoader: ArrayLoader
     /// page is available, this function does nothing.
     ///
     /// Although load strategies can execute synchronously, the next page state of the array loader will always
-    /// change to `.Loading` when this function is called, as long as the next page state is not `.Completed`.
+    /// change to `.loading` when this function is called, as long as the next page state is not `.completed`.
     public func loadNextPage()
     {
         backing.loadNextPage()
@@ -91,7 +91,7 @@ extension StrategyArrayLoader: ArrayLoader
     /// previous page is available, this function does nothing.
     ///
     /// Although load strategies can execute synchronously, the next page state of the array loader will always
-    /// change to `.Loading` when this function is called, as long as the next page state is not `.Completed`.
+    /// change to `.loading` when this function is called, as long as the next page state is not `.completed`.
     public func loadPreviousPage()
     {
         backing.loadPreviousPage()

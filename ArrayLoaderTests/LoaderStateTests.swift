@@ -9,7 +9,7 @@
 // this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 
 @testable import ArrayLoader
-import ReactiveCocoa
+import ReactiveSwift
 import Result
 import XCTest
 
@@ -18,28 +18,28 @@ class LoaderStateTests: XCTestCase
     func testEquality()
     {
         XCTAssertTrue(
-            LoaderState<Int, NoError>(elements: [], nextPageState: .HasMore, previousPageState: .Completed) ==
-            LoaderState<Int, NoError>(elements: [], nextPageState: .HasMore, previousPageState: .Completed)
+            LoaderState<Int, NoError>(elements: [], nextPageState: .hasMore, previousPageState: .completed) ==
+            LoaderState<Int, NoError>(elements: [], nextPageState: .hasMore, previousPageState: .completed)
         )
         
         XCTAssertTrue(
-            LoaderState<Int, NoError>(elements: [1, 2, 3], nextPageState: .HasMore, previousPageState: .Completed) ==
-            LoaderState<Int, NoError>(elements: [1, 2, 3], nextPageState: .HasMore, previousPageState: .Completed)
+            LoaderState<Int, NoError>(elements: [1, 2, 3], nextPageState: .hasMore, previousPageState: .completed) ==
+            LoaderState<Int, NoError>(elements: [1, 2, 3], nextPageState: .hasMore, previousPageState: .completed)
         )
         
         XCTAssertFalse(
-            LoaderState<Int, NoError>(elements: [1, 2, 3], nextPageState: .HasMore, previousPageState: .Completed) ==
-            LoaderState<Int, NoError>(elements: [1, 2], nextPageState: .HasMore, previousPageState: .Completed)
+            LoaderState<Int, NoError>(elements: [1, 2, 3], nextPageState: .hasMore, previousPageState: .completed) ==
+            LoaderState<Int, NoError>(elements: [1, 2], nextPageState: .hasMore, previousPageState: .completed)
         )
         
         XCTAssertFalse(
-            LoaderState<Int, NoError>(elements: [1, 2, 3], nextPageState: .HasMore, previousPageState: .Completed) ==
-            LoaderState<Int, NoError>(elements: [1, 2, 3], nextPageState: .HasMore, previousPageState: .HasMore)
+            LoaderState<Int, NoError>(elements: [1, 2, 3], nextPageState: .hasMore, previousPageState: .completed) ==
+            LoaderState<Int, NoError>(elements: [1, 2, 3], nextPageState: .hasMore, previousPageState: .hasMore)
         )
         
         XCTAssertFalse(
-            LoaderState<Int, NoError>(elements: [1, 2, 3], nextPageState: .HasMore, previousPageState: .Completed) ==
-            LoaderState<Int, NoError>(elements: [1, 2, 3], nextPageState: .Completed, previousPageState: .Completed)
+            LoaderState<Int, NoError>(elements: [1, 2, 3], nextPageState: .hasMore, previousPageState: .completed) ==
+            LoaderState<Int, NoError>(elements: [1, 2, 3], nextPageState: .completed, previousPageState: .completed)
         )
     }
 }
